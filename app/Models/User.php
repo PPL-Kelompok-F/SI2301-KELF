@@ -29,4 +29,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
 }
+
+
