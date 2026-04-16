@@ -49,7 +49,7 @@ function setRole(role) {
 
             <h2 class="text-2xl font-bold mb-2">Welcome Back!</h2>
             <p class="text-gray-500 text-sm mb-6">
-                Login to start your learning 🚀
+                Login to start your learning
             </p>
 
             <!-- ERROR VALIDATION -->
@@ -80,19 +80,19 @@ function setRole(role) {
                         <button type="button"
                             onclick="setRole('student')"
                             class="role-btn bg-gray-100 py-2 rounded-lg">
-                            🎓 Student
+                            Student
                         </button>
 
                         <button type="button"
                             onclick="setRole('teacher')"
                             class="role-btn bg-gray-100 py-2 rounded-lg">
-                            🧑‍🏫 Teacher
+                            Teacher
                         </button>
 
                         <button type="button"
                             onclick="setRole('admin')"
                             class="role-btn bg-gray-100 py-2 rounded-lg">
-                            💼 Admin
+                            Admin
                         </button>
 
                     </div>
