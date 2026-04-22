@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -26,6 +27,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth')->group(function () {
 
     Route::view('/dashboard', 'dashboard');
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::post('/profile', [ProfileController::class, 'update']);
     Route::view('/courses', 'pages.courses');
     Route::view('/quiz', 'pages.quiz');
     Route::view('/assignment', 'pages.assignment');
@@ -33,6 +36,4 @@ Route::middleware('auth')->group(function () {
     Route::view('/qna', 'pages.qna');
     Route::view('/report', 'pages.report');
     Route::view('/payment', 'pages.payment');
-    Route::view('/profile', 'pages.profile');
-
 });
