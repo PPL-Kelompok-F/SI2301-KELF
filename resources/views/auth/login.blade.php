@@ -5,6 +5,22 @@
     @vite('resources/css/app.css')
 </head>
 
+<script>
+function setRole(role) {
+    document.getElementById('role').value = role;
+
+    // reset style semua button
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-500', 'text-white');
+        btn.classList.add('bg-gray-100');
+    });
+
+    // highlight yang dipilih
+    event.target.classList.remove('bg-gray-100');
+    event.target.classList.add('bg-indigo-500', 'text-white');
+}
+</script>
+
 <body class="bg-gray-100">
 
 <div class="min-h-screen flex">
@@ -36,7 +52,7 @@
                 Login to start your learning
             </p>
 
-            <!-- ERROR -->
+            <!-- ERROR VALIDATION -->
             @if ($errors->any())
                 <div class="bg-red-100 text-red-600 p-2 rounded mb-3">
                     @foreach ($errors->all() as $error)
@@ -45,37 +61,44 @@
                 </div>
             @endif
 
+            <!-- ERROR LOGIN -->
             @if(session('error'))
                 <div class="bg-red-100 text-red-600 p-2 rounded mb-3">
                     {{ session('error') }}
                 </div>
             @endif
-
+                <!-- ROLE -->
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <!-- ROLE -->
+                <!-- ROLE OPTION -->
                 <div class="mb-4">
                     <label class="text-sm mb-2 block">Sign in as</label>
 
-                    <div class="grid grid-cols-2 gap-2">
+                    <div class="grid grid-cols-3 gap-2">
 
                         <button type="button"
-                            onclick="setRole(event, 'student')"
-                            class="role-btn bg-indigo-500 text-white py-2 rounded-lg">
+                            onclick="setRole('student')"
+                            class="role-btn bg-gray-100 py-2 rounded-lg">
                             Student
                         </button>
 
                         <button type="button"
-                            onclick="setRole(event, 'teacher')"
+                            onclick="setRole('teacher')"
                             class="role-btn bg-gray-100 py-2 rounded-lg">
                             Teacher
+                        </button>
+
+                        <button type="button"
+                            onclick="setRole('admin')"
+                            class="role-btn bg-gray-100 py-2 rounded-lg">
+                            Admin
                         </button>
 
                     </div>
                 </div>
 
-                <!-- HIDDEN ROLE -->
+                <!-- HIDDEN INPUT -->
                 <input type="hidden" name="role" id="role" value="student">
 
                 <!-- EMAIL -->
@@ -109,33 +132,10 @@
 
             </form>
 
-            <!-- REGISTER -->
-            <p class="text-center text-sm mt-4">
-                Don't have an account?
-                <a href="/register" class="text-indigo-500 font-medium">
-                    Sign up here
-                </a>
-            </p>
-
         </div>
     </div>
 
 </div>
-
-<!-- SCRIPT FIX -->
-<script>
-function setRole(e, role) {
-    document.getElementById('role').value = role;
-
-    document.querySelectorAll('.role-btn').forEach(btn => {
-        btn.classList.remove('bg-indigo-500', 'text-white');
-        btn.classList.add('bg-gray-100');
-    });
-
-    e.target.classList.remove('bg-gray-100');
-    e.target.classList.add('bg-indigo-500', 'text-white');
-}
-</script>
 
 </body>
 </html>
