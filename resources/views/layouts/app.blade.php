@@ -22,15 +22,47 @@
         <!-- MENU -->
         <nav class="space-y-2 text-sm">
 
-            <a href="/dashboard" class="block px-3 py-2 rounded hover:bg-gray-100">Dashboard</a>
-            <a href="/courses" class="block px-3 py-2 rounded hover:bg-gray-100">Courses</a>
-            <a href="/quiz" class="block px-3 py-2 rounded hover:bg-gray-100">Quiz</a>
-            <a href="/assignment" class="block px-3 py-2 rounded hover:bg-gray-100">Tugas</a>
-            <a href="/forum" class="block px-3 py-2 rounded hover:bg-gray-100">Forum</a>
-            <a href="/qna" class="block px-3 py-2 rounded hover:bg-gray-100">QnA</a>
-            <a href="/report" class="block px-3 py-2 rounded hover:bg-gray-100">Report</a>
-            <a href="/payment" class="block px-3 py-2 rounded hover:bg-gray-100">Payment</a>
-            <a href="/profile" class="block px-3 py-2 rounded hover:bg-gray-100">Profile</a>
+            @auth
+
+                <a href="/dashboard" class="block px-3 py-2 rounded hover:bg-gray-100">Dashboard</a>
+
+                {{-- SISWA & MENTOR --}}
+                @if(auth()->user()->role == 'siswa' || auth()->user()->role == 'mentor')
+                    <a href="/courses" class="block px-3 py-2 rounded hover:bg-gray-100">Courses</a>
+                    <a href="/assignment" class="block px-3 py-2 rounded hover:bg-gray-100">Tugas</a>
+                    <a href="/forum" class="block px-3 py-2 rounded hover:bg-gray-100">Forum</a>
+                    <a href="/qna" class="block px-3 py-2 rounded hover:bg-gray-100">QnA</a>
+                @endif
+
+                {{-- SISWA ONLY --}}
+                @if(auth()->user()->role == 'siswa')
+                    <a href="/quiz" class="block px-3 py-2 rounded hover:bg-gray-100">Quiz</a>
+                    <a href="/payment" class="block px-3 py-2 rounded hover:bg-gray-100">Payment</a>
+                @endif
+
+                {{-- ADMIN ONLY --}}
+                @if(auth()->user()->role == 'admin')
+                    <a href="/admin/users" class="block px-3 py-2 rounded hover:bg-gray-100">
+                        Manajemen User
+                    </a>
+
+                    <a href="/report" class="block px-3 py-2 rounded hover:bg-gray-100">
+                        Report
+                    </a>
+                @endif
+
+                {{-- SEMUA ROLE --}}
+                <a href="/profile" class="block px-3 py-2 rounded hover:bg-gray-100">Profile</a>
+
+                {{-- LOGOUT --}}
+                <form action="/logout" method="POST">
+                    @csrf
+                    <button class="w-full text-left px-3 py-2 rounded hover:bg-red-100 text-red-500">
+                        Logout
+                    </button>
+                </form>
+
+            @endauth
 
         </nav>
 
@@ -38,9 +70,7 @@
 
     <!-- CONTENT -->
     <div id="mainContent" class="flex-1 p-6 transition-all duration-300">
-
         @yield('content')
-
     </div>
 
 </div>
