@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MateriController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // redirect root
@@ -36,4 +37,5 @@ Route::middleware('auth')->group(function () {
     Route::view('/qna', 'pages.qna');
     Route::view('/report', 'pages.report');
     Route::view('/payment', 'pages.payment');
+    Route::resource('materi', MateriController::class);
 });

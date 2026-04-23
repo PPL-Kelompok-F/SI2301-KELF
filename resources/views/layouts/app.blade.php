@@ -24,6 +24,9 @@
 
             <a href="/dashboard" class="block px-3 py-2 rounded hover:bg-gray-100">Dashboard</a>
             <a href="/courses" class="block px-3 py-2 rounded hover:bg-gray-100">Courses</a>
+            @if(auth()->user()->role == 'teacher')
+                <a href="{{ route('materi.index') }}" class="flex items-center px-4 py-2 hover:bg-gray-200">Materi</a>
+            @endif
             <a href="/quiz" class="block px-3 py-2 rounded hover:bg-gray-100">Quiz</a>
             <a href="/assignment" class="block px-3 py-2 rounded hover:bg-gray-100">Tugas</a>
             <a href="/forum" class="block px-3 py-2 rounded hover:bg-gray-100">Forum</a>
