@@ -13,57 +13,49 @@
 
 <div class="bg-white p-6 rounded-xl shadow max-w-lg">
 
-    <form method="POST" action="/profile">
+    <!-- FORM UPDATE -->
+    <form id="updateForm" method="POST" action="/profile">
         <?php echo csrf_field(); ?>
 
-        <!-- NAME -->
         <div class="mb-4">
-            <label class="block mb-1">Name</label>
+            <label>Name</label>
             <input type="text" name="name"
                 value="<?php echo e(old('name', $user->name)); ?>"
-                class="w-full border rounded px-3 py-2">
+                class="w-full border px-3 py-2 rounded">
         </div>
 
-        <!-- EMAIL -->
         <div class="mb-4">
-            <label class="block mb-1">Email</label>
+            <label>Email</label>
             <input type="email" name="email"
                 value="<?php echo e(old('email', $user->email)); ?>"
-                class="w-full border rounded px-3 py-2">
+                class="w-full border px-3 py-2 rounded">
         </div>
 
-        <!-- PASSWORD -->
         <div class="mb-4">
-            <label class="block mb-1">New Password</label>
+            <label>Password</label>
             <input type="password" name="password"
-                class="w-full border rounded px-3 py-2">
+                class="w-full border px-3 py-2 rounded">
         </div>
+    </form>
 
-        <!-- FORM UPDATE -->
-<form id="updateForm" method="POST" action="/profile">
-    <?php echo csrf_field(); ?>
-</form>
+    <!-- BUTTON AREA -->
+    <div class="flex justify-between mt-6">
 
-<!-- BUTTON AREA -->
-<div class="flex justify-between mt-6">
+        <!-- LOGOUT -->
+        <form method="POST" action="/logout">
+            <?php echo csrf_field(); ?>
+            <button type="submit" class="text-red-500 hover:text-red-700">
+                Logout
+            </button>
+        </form>
 
-    <!-- LOGOUT -->
-    <form method="POST" action="<?php echo e(route('logout')); ?>">
-        <?php echo csrf_field(); ?>
-        <button type="submit" class="text-red-500">
-            Logout
+        <!-- UPDATE -->
+        <button type="submit" form="updateForm"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+            Update Profile
         </button>
-    </form>
 
-    <!-- UPDATE -->
-    <button type="submit" form="updateForm"
-        class="bg-blue-500 text-white px-4 py-2 rounded">
-        Update Profile
-    </button>
-
-</div>
-
-    </form>
+    </div>
 
 </div>
 
