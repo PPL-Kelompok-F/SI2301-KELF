@@ -67,6 +67,7 @@
             </div>
         </div>
 
+        
         <!-- BUTTON -->
         <a href="/courses/{{ $course->id }}"
            class="block text-center bg-indigo-500 text-white py-2 rounded-lg hover:bg-indigo-600">
