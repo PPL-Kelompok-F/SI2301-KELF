@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -33,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::view('/qna', 'pages.qna');
     Route::view('/report', 'pages.report');
     Route::view('/payment', 'pages.payment');
-    Route::view('/profile', 'pages.profile');
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::post('/profile', [ProfileController::class, 'update']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 });
