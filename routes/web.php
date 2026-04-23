@@ -78,6 +78,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/admin/courses/{id}', [CourseController::class, 'destroy']);
     Route::view('/report', 'pages.report');
     Route::view('/payment', 'pages.payment');
+
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::post('/profile', [ProfileController::class, 'update']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::view('/profile', 'pages.profile');
     
 
@@ -107,4 +111,5 @@ Route::post('/courses/enroll', function (Illuminate\Http\Request $request) {
 
     return back()->with('success', 'Berhasil ambil course 🚀');
 });
+
 

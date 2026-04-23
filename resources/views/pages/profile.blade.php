@@ -19,6 +19,7 @@
         <div class="mb-4">
             <label class="block mb-1">Name</label>
             <input type="text" name="name"
+                value="{{ old('name', $user->name) }}"
                 value="{{ $user->name }}"
                 class="w-full border rounded px-3 py-2">
         </div>
@@ -27,17 +28,43 @@
         <div class="mb-4">
             <label class="block mb-1">Email</label>
             <input type="email" name="email"
+
+                value="{{ old('email', $user->email) }}"
                 value="{{ $user->email }}"
                 class="w-full border rounded px-3 py-2">
         </div>
 
         <!-- PASSWORD -->
         <div class="mb-4">
+            <label class="block mb-1">New Password</label>
             <label class="block mb-1">New Password (optional)</label>
             <input type="password" name="password"
                 class="w-full border rounded px-3 py-2">
         </div>
 
+        <!-- FORM UPDATE -->
+<form id="updateForm" method="POST" action="/profile">
+    @csrf
+</form>
+
+<!-- BUTTON AREA -->
+<div class="flex justify-between mt-6">
+
+    <!-- LOGOUT -->
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="text-red-500">
+            Logout
+        </button>
+    </form>
+
+    <!-- UPDATE -->
+    <button type="submit" form="updateForm"
+        class="bg-blue-500 text-white px-4 py-2 rounded">
+        Update Profile
+    </button>
+
+</div>
         <button class="bg-blue-500 text-white px-4 py-2 rounded">
             Update Profile
         </button>
