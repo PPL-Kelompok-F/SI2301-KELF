@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.student.app')
 
 @section('content')
 
@@ -6,7 +6,6 @@
     Halo, {{ $user->name }}
 </h1>
 
-<!-- STATS -->
 <div class="grid grid-cols-3 gap-4 mb-6">
 
     <div class="bg-white p-4 rounded-xl shadow">
@@ -32,7 +31,6 @@
 
 </div>
 
-<!-- COURSES -->
 <h2 class="font-bold mb-3">My Courses</h2>
 
 @if($courses->isEmpty())
@@ -43,20 +41,17 @@
 
 @foreach($courses as $course)
     <div 
-        onclick="window.location='/courses/{{ $course->id }}'"
+        onclick="window.location='/student/courses/{{ $course->id }}'"
         class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition cursor-pointer">
 
-        <!-- TITLE -->
         <h3 class="font-bold text-lg mb-1">
             {{ $course->title }}
         </h3>
 
-        <!-- DESC -->
         <p class="text-sm text-gray-500 mb-3">
-            {{ Str::limit($course->description, 60) }}
+            {{ \Illuminate\Support\Str::limit($course->description, 60) }}
         </p>
 
-        <!-- PROGRESS -->
         <div class="mb-2 text-sm">
             Progress: {{ $courseProgress[$course->id] ?? 0 }}%
         </div>
@@ -67,13 +62,14 @@
             </div>
         </div>
 
-        
-        <!-- BUTTON -->
-        <a href="/courses/{{ $course->id }}"
+        <a href="/student/courses/{{ $course->id }}"
            class="block text-center bg-indigo-500 text-white py-2 rounded-lg hover:bg-indigo-600">
             Lanjut Belajar
         </a>
 
     </div>
 @endforeach
+
+</div>
+
 @endsection
