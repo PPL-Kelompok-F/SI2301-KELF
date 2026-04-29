@@ -1,14 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\CourseController;
-use App\Http\Controllers\CourseController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 
 // ================== REDIRECT ==================
 Route::get('/', function () {
@@ -17,30 +18,18 @@ Route::get('/', function () {
 
 
 // ================== AUTH ==================
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login'); // ✅ TAMBAH INI
+Route::post('/login', [AuthController::class, 'login']); // ✅ cukup satu
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
-// // dashboard
-// Route::middleware('auth')->group(function () {
-//     Route::get('/dashboard', function () {return view('Dashboard');});
-//     Route::get('/admin/dashboard', function () {return "Dashboard Admin";});
-//     Route::get('/teacher/dashboard', function () {return "Dashboard Teacher";});
-//     Route::post('/logout', [AuthController::class, 'logout']);
-// });
-//Sign in
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-
-// LOGOUT
-Route::post('/logout', [AuthController::class, 'logout']);
 
 
 // ================== SEMUA USER (LOGIN WAJIB) ==================
 Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
-
     Route::view('/profile', 'pages.profile');
 
 });
@@ -59,7 +48,6 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 // ================== SISWA & MENTOR ==================
 Route::middleware(['auth', 'role:siswa,mentor'])->group(function () {
 
-    Route::view('/courses', 'pages.courses');
     Route::view('/assignment', 'pages.assignment');
     Route::view('/forum', 'pages.forum');
     Route::view('/qna', 'pages.qna');
@@ -70,24 +58,26 @@ Route::middleware(['auth', 'role:siswa,mentor'])->group(function () {
 // ================== ADMIN ONLY ==================
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/admin/courses', [CourseController::class, 'index']);
-    Route::get('/admin/courses/create', [CourseController::class, 'create']);
-    Route::post('/admin/courses', [CourseController::class, 'store']);
-    Route::get('/admin/courses/{id}/edit', [CourseController::class, 'edit']);
-    Route::post('/admin/courses/{id}', [CourseController::class, 'update']);
-    Route::delete('/admin/courses/{id}', [CourseController::class, 'destroy']);
-    Route::view('/report', 'pages.report');
-    Route::view('/payment', 'pages.payment');
-    Route::view('/profile', 'pages.profile');
-    
+    Route::get('/admin/courses', [AdminCourseController::class, 'index']);
+    Route::get('/admin/courses/create', [AdminCourseController::class, 'create']);
+    Route::post('/admin/courses', [AdminCourseController::class, 'store']);
+    Route::get('/admin/courses/{id}/edit', [AdminCourseController::class, 'edit']);
+    Route::post('/admin/courses/{id}', [AdminCourseController::class, 'update']);
+    Route::delete('/admin/courses/{id}', [AdminCourseController::class, 'destroy']);
 
+    Route::view('/report', 'pages.report');
 });
 
-use Illuminate\Support\Facades\DB;
 
+// ================== ENROLL COURSE ==================
 Route::post('/courses/enroll', function (Illuminate\Http\Request $request) {
 
-    $userId = auth()->id();
+    $userId = Auth::id();
+
+    if (!$userId) {
+        return redirect('/login');
+    }
+
     $courseId = $request->course_id;
 
     $exists = DB::table('enrollments')
@@ -106,5 +96,4 @@ Route::post('/courses/enroll', function (Illuminate\Http\Request $request) {
     ]);
 
     return back()->with('success', 'Berhasil ambil course 🚀');
-});
-
+})->middleware('auth'); // ✅ tambah middleware
