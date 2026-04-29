@@ -71,6 +71,7 @@
                 Register
             </button>
 
+            
         </form>
 
         <p class="text-center text-sm mt-4">
