@@ -15,7 +15,7 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-
+//add linne doang untuk testingn
 // login
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
