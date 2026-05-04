@@ -1,13 +1,14 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
+use App\Http\Controllers\Student\MateriController;
 
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
-
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 // redirect root
@@ -15,23 +16,26 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-//add linne doang untuk testingn
-// login
+// ================= AUTH =================
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-// register
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-// logout
 Route::post('/logout', [AuthController::class, 'logout']);
 
-//Route per role
 
+// ================= STUDENT =================
 Route::middleware('auth')->prefix('student')->group(function () {
+
     Route::get('/dashboard', [StudentDashboardController::class, 'index']);
     Route::get('/courses', [StudentCourseController::class, 'courses']);
+
+    // VIDEO (FR003)
+    Route::get('/courses/{id}/materi', [MateriController::class, 'index']);
+    Route::get('/materi/{id}', [MateriController::class, 'show']);
+
     Route::view('/quiz', 'pages.quiz');
     Route::view('/assignment', 'pages.assignment');
     Route::view('/forum', 'pages.forum');
@@ -40,8 +44,7 @@ Route::middleware('auth')->prefix('student')->group(function () {
     Route::view('/payment', 'pages.payment');
     Route::view('/profile', 'pages.profile');
 
-    //Untuk enroll course
-
+    // enroll course
     Route::post('/courses/enroll', function (Illuminate\Http\Request $request) {
 
         $userId = auth()->id();
@@ -66,12 +69,19 @@ Route::middleware('auth')->prefix('student')->group(function () {
     });
 });
 
+
+// ================= TEACHER =================
 Route::middleware('auth')->prefix('teacher')->group(function () {
+
     Route::get('/dashboard', [TeacherDashboardController::class, 'index']);
-    // Tambahkan route lain untuk teacher di sini
+
+    // VIDEO (FR003)
+    Route::get('/courses/{id}/materi', [MateriController::class, 'index']);
+    Route::get('/materi/{id}', [MateriController::class, 'show']);
 });
 
+
+// ================= ADMIN =================
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index']);
-    // Tambahkan route lain untuk admin di sini
 });

@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('teacher.dashboard');
+        $user = auth()->user();
+
+        // ambil semua course (teacher bisa lihat semua)
+        $courses = DB::table('courses')->get();
+
+        return view('teacher.dashboard', compact('user', 'courses'));
     }
 }
