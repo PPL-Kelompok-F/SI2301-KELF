@@ -15,7 +15,6 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-//add linne doang untuk testingn
 // login
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -32,6 +31,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth')->prefix('student')->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index']);
     Route::get('/courses', [StudentCourseController::class, 'courses']);
+    Route::get('/courses/{id}', [StudentCourseController::class, 'show']);
     Route::view('/quiz', 'pages.quiz');
     Route::view('/assignment', 'pages.assignment');
     Route::view('/forum', 'pages.forum');

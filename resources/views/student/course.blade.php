@@ -1,3 +1,4 @@
+@extends('layouts.student.app')
 @foreach($allCourses as $course)
 
 @php
@@ -18,7 +19,7 @@
     <div class="flex gap-2">
 
         <!-- DETAIL -->
-        <a href="/courses/{{ $course->id }}"
+        <a href="student/courses/{{ $course->id }}"
            class="flex-1 text-center bg-gray-200 py-2 rounded-lg">
             Detail
         </a>
@@ -30,7 +31,7 @@
                 Sudah Diambil
             </button>
         @else
-            <form method="POST" action="/courses/enroll" class="flex-1">
+            <form method="POST" action="/student/courses/enroll" class="flex-1">
                 @csrf
                 <input type="hidden" name="course_id" value="{{ $course->id }}">
 
