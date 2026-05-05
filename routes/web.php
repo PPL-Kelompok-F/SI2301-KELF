@@ -65,10 +65,12 @@ Route::middleware('auth')->prefix('student')->group(function () {
         DB::table('enrollments')->insert([
             'user_id' => $userId,
             'course_id' => $courseId,
-            'created_at' => now()
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
 
-        return back()->with('success', 'Berhasil ambil course ini');
+        return redirect('/student/dashboard')
+            ->with('success', 'Berhasil ambil course ini');
     });
 });
 
