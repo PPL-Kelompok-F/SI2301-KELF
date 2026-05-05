@@ -94,6 +94,7 @@ class MateriController extends Controller
 
         DB::table('materis')->insert([
             'title' => $request->title,
+            'description' => $request->description,
             'video_url' => $request->video_url,
             'course_id' => $course_id,
             'created_at' => now(),

@@ -23,6 +23,12 @@
                 allowfullscreen>
             </iframe>
         </div>
+        <div class="mt-6 bg-gray-50 p-4 rounded-lg">
+            <h2 class="font-bold mb-2">Deskripsi Materi</h2>
+            <p class="text-gray-600">
+                {{ $materi->description ?? 'Belum ada deskripsi.' }}
+            </p>
+        </div>
     @else
         <div class="bg-red-100 text-red-600 p-3 rounded mb-4">
             Link video tidak valid.
