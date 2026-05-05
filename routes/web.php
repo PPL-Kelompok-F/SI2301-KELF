@@ -32,6 +32,9 @@ Route::middleware('auth')->prefix('student')->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index']);
     Route::get('/courses', [StudentCourseController::class, 'courses']);
 
+    // TAMBAHAN (DETAIL COURSE)
+    Route::get('/courses/{id}', [StudentCourseController::class, 'show']);
+
     // VIDEO (FR003)
     Route::get('/courses/{id}/materi', [MateriController::class, 'index']);
     Route::get('/materi/{id}', [MateriController::class, 'show']);
@@ -75,8 +78,15 @@ Route::middleware('auth')->prefix('teacher')->group(function () {
 
     Route::get('/dashboard', [TeacherDashboardController::class, 'index']);
 
-    // VIDEO (FR003)
+    Route::get('/courses/{id}', [StudentCourseController::class, 'show']);
+
     Route::get('/courses/{id}/materi', [MateriController::class, 'index']);
+    Route::get('/courses/{id}/materi/create', [MateriController::class, 'create']);
+    Route::post('/courses/{id}/materi/store', [MateriController::class, 'store']);
+    Route::get('/materi/{id}/edit', [MateriController::class, 'edit']);
+    Route::post('/materi/{id}/update', [MateriController::class, 'update']);
+    Route::post('/materi/{id}/delete', [MateriController::class, 'destroy']);
+
     Route::get('/materi/{id}', [MateriController::class, 'show']);
 });
 

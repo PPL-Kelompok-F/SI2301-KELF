@@ -32,7 +32,7 @@
                 <span x-show="show">Dashboard</span>
             </a>
 
-            <a href="/teacher/courses"
+            <a href="/teacher/dashboard"
                class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-blue-500"
                :class="{'justify-center': !show}">
                 <span>📚</span>
@@ -87,7 +87,9 @@
 
         <!-- TOPBAR -->
         <div class="flex justify-between items-center px-6 py-3 bg-white shadow">
-            <h1 class="font-bold">Dashboard</h1>
+            <h1 class="font-bold">
+                @yield('page-title', 'Dashboard')
+            </h1>
 
             <div class="flex items-center gap-3">
                 <span>{{ auth()->user()->name }}</span>

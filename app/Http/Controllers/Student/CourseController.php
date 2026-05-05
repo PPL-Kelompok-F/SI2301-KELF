@@ -14,4 +14,12 @@ class CourseController extends Controller
 
         return view('student.courses', compact('allCourses'));
     }
+
+    //TAMBAHAN
+    public function show($id)
+    {
+        $course = DB::table('courses')->where('id', $id)->first();
+
+        return view('teacher.course.show', compact('course'));
+    }
 }

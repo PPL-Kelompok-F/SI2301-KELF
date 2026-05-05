@@ -11,9 +11,15 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        // ambil semua course (teacher bisa lihat semua)
         $courses = DB::table('courses')->get();
+        $courseCount = $courses->count();
+        $materiCount = DB::table('materis')->count();
 
-        return view('teacher.dashboard', compact('user', 'courses'));
+        return view('teacher.dashboard', compact(
+            'user',
+            'courses',
+            'courseCount',
+            'materiCount'
+        ));
     }
 }
