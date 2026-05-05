@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>Login - BelajarIn</title>
-    @vite('resources/css/app.css')
+
+    <!-- TAILWIND CDN (biar ga putih walau Vite error) -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -10,11 +12,8 @@
 <div class="min-h-screen flex">
 
     <!-- LEFT -->
-    <div class="hidden md:flex w-1/2 relative">
-        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
-             class="absolute w-full h-full object-cover">
-
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="hidden md:flex w-1/2 relative bg-blue-600">
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
 
         <div class="relative text-white p-10 flex flex-col justify-end">
             <h1 class="text-3xl font-bold mb-2">
@@ -122,7 +121,7 @@
 
 </div>
 
-<!-- SCRIPT FIX -->
+<!-- SCRIPT ROLE -->
 <script>
 function setRole(e, role) {
     document.getElementById('role').value = role;
