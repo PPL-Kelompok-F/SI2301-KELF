@@ -2,35 +2,18 @@
 <html>
 <head>
     <title>Login - BelajarIn</title>
-    @vite('resources/css/app.css')
+
+    <!-- TAILWIND CDN (biar ga putih walau Vite error) -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<script>
-function setRole(role) {
-    document.getElementById('role').value = role;
-
-    // reset style semua button
-    document.querySelectorAll('.role-btn').forEach(btn => {
-        btn.classList.remove('bg-indigo-500', 'text-white');
-        btn.classList.add('bg-gray-100');
-    });
-
-    // highlight yang dipilih
-    event.target.classList.remove('bg-gray-100');
-    event.target.classList.add('bg-indigo-500', 'text-white');
-}
-</script>
 
 <body class="bg-gray-100">
 
 <div class="min-h-screen flex">
 
     <!-- LEFT -->
-    <div class="hidden md:flex w-1/2 relative">
-        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
-             class="absolute w-full h-full object-cover">
-
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="hidden md:flex w-1/2 relative bg-blue-600">
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
 
         <div class="relative text-white p-10 flex flex-col justify-end">
             <h1 class="text-3xl font-bold mb-2">
@@ -52,7 +35,7 @@ function setRole(role) {
                 Login to start your learning
             </p>
 
-            <!-- ERROR VALIDATION -->
+            <!-- ERROR -->
             @if ($errors->any())
                 <div class="bg-red-100 text-red-600 p-2 rounded mb-3">
                     @foreach ($errors->all() as $error)
@@ -61,44 +44,37 @@ function setRole(role) {
                 </div>
             @endif
 
-            <!-- ERROR LOGIN -->
             @if(session('error'))
                 <div class="bg-red-100 text-red-600 p-2 rounded mb-3">
                     {{ session('error') }}
                 </div>
             @endif
-                <!-- ROLE -->
+
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <!-- ROLE OPTION -->
+                <!-- ROLE -->
                 <div class="mb-4">
                     <label class="text-sm mb-2 block">Sign in as</label>
 
-                    <div class="grid grid-cols-3 gap-2">
+                    <div class="grid grid-cols-2 gap-2">
 
                         <button type="button"
-                            onclick="setRole('student')"
-                            class="role-btn bg-gray-100 py-2 rounded-lg">
+                            onclick="setRole(event, 'student')"
+                            class="role-btn bg-indigo-500 text-white py-2 rounded-lg">
                             Student
                         </button>
 
                         <button type="button"
-                            onclick="setRole('teacher')"
+                            onclick="setRole(event, 'teacher')"
                             class="role-btn bg-gray-100 py-2 rounded-lg">
                             Teacher
-                        </button>
-
-                        <button type="button"
-                            onclick="setRole('admin')"
-                            class="role-btn bg-gray-100 py-2 rounded-lg">
-                            Admin
                         </button>
 
                     </div>
                 </div>
 
-                <!-- HIDDEN INPUT -->
+                <!-- HIDDEN ROLE -->
                 <input type="hidden" name="role" id="role" value="student">
 
                 <!-- EMAIL -->
@@ -132,10 +108,33 @@ function setRole(role) {
 
             </form>
 
+            <!-- REGISTER -->
+            <p class="text-center text-sm mt-4">
+                Don't have an account?
+                <a href="/register" class="text-indigo-500 font-medium">
+                    Sign up here
+                </a>
+            </p>
+
         </div>
     </div>
 
 </div>
+
+<!-- SCRIPT ROLE -->
+<script>
+function setRole(e, role) {
+    document.getElementById('role').value = role;
+
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-500', 'text-white');
+        btn.classList.add('bg-gray-100');
+    });
+
+    e.target.classList.remove('bg-gray-100');
+    e.target.classList.add('bg-indigo-500', 'text-white');
+}
+</script>
 
 </body>
 </html>
