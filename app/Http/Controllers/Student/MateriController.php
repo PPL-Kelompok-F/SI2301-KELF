@@ -17,9 +17,16 @@ class MateriController extends Controller
             ->where('course_id', $course_id)
             ->get();
 
+        $course = DB::table('courses')
+            ->where('id', $course_id)
+            ->first();
+
+        if (request()->is('student/*')) {
+            return view('student.materi.index', compact('materis', 'course'));
+        }
+
         return view('materi.index', compact('materis', 'course_id'));
     }
-
 
     // =======================
     // SHOW VIDEO

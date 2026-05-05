@@ -15,11 +15,23 @@ class CourseController extends Controller
         return view('student.courses', compact('allCourses'));
     }
 
-    //TAMBAHAN
+    // detail course teacher + list materi
     public function show($id)
     {
         $course = DB::table('courses')->where('id', $id)->first();
 
-        return view('teacher.course.show', compact('course'));
+        if (!$course) {
+            abort(404);
+        }
+
+        $materis = DB::table('materis')
+            ->where('course_id', $id)
+            ->get();
+
+        if (request()->path() === 'teacher/courses/' . $id) {
+            return view('teacher.course.show', compact('course', 'materis'));
+        }
+
+        return view('student.course-show', compact('course', 'materis'));
     }
 }

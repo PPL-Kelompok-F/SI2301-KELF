@@ -79,7 +79,7 @@
                 </div>
             </div>
 
-            <a href="/student/courses/{{ $course->id }}/materi"
+            <a href="/student/courses/{{ $course->id }}"
                class="block text-center bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition">
                 Lanjut Belajar
             </a>
