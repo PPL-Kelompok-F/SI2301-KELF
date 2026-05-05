@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -52,7 +54,7 @@ class DashboardController extends Controller
             $courseProgress[$course->id] = $progress;
         }
         $allCourses = DB::table('courses')->get();
-        return view('dashboard', compact(
+        return view('student.dashboard', compact(
             'user',
             'streak',
             'courses',
@@ -64,5 +66,4 @@ class DashboardController extends Controller
 
     }
 
-    
 }

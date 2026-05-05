@@ -11,7 +11,7 @@
 
     <!-- LEFT -->
     <div class="hidden md:flex w-1/2 relative">
-        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+        <!-- <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" -->
              class="absolute w-full h-full object-cover">
 
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>

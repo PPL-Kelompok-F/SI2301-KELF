@@ -70,11 +70,15 @@ class AuthController extends Controller
     // REDIRECT BY ROLE
     private function redirectByRole($role)
     {
+        if ($role == 'admin') {
+            return redirect('/admin/dashboard');
+        }
+
         if ($role == 'teacher') {
             return redirect('/teacher/dashboard');
         }
 
-        return redirect('/dashboard');
+        return redirect('/student/dashboard'); // default student
     }
 
     // LOGOUT
