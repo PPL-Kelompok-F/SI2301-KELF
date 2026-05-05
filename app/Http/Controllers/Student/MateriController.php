@@ -21,11 +21,23 @@ class MateriController extends Controller
             ->where('id', $course_id)
             ->first();
 
-        if (request()->is('student/*')) {
-            return view('student.materi.index', compact('materis', 'course'));
+        if (!$course) {
+            abort(404);
         }
 
-        return view('materi.index', compact('materis', 'course_id'));
+    if (request()->is('student/*')) {
+        $isEnrolled = DB::table('enrollments')
+            ->where('user_id', auth()->id())
+            ->where('course_id', $course_id)
+            ->exists();
+
+    if (!$isEnrolled) {
+        return redirect('/student/courses/' . $course_id)
+            ->with('error', 'Kamu harus enroll course terlebih dahulu');
+    }
+
+        return view('student.materi.index', compact('materis', 'course'));
+    }
     }
 
     // =======================

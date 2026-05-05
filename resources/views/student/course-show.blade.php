@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if(session('error'))
+    <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+        {{ session('error') }}
+    </div>
+@endif
+
 <a href="/student/dashboard"
    class="inline-block mb-4 text-indigo-500 hover:underline">
     ← Kembali ke Dashboard
