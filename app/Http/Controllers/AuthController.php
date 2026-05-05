@@ -62,11 +62,23 @@ class AuthController extends Controller
 
     private function redirectByRole($role)
     {
+<<<<<<< HEAD
+        if ($role == 'admin') {
+            return redirect('/admin/dashboard');
+        }
+
+        if ($role == 'teacher') {
+            return redirect('/teacher/dashboard');
+        }
+
+        return redirect('/student/dashboard'); // default student
+=======
         return match ($role) {
             'admin' => redirect('/admin/dashboard'),
             'teacher' => redirect('/teacher/dashboard'),
             default => redirect('/student/dashboard'),
         };
+>>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
     }
 
     public function logout(Request $request)

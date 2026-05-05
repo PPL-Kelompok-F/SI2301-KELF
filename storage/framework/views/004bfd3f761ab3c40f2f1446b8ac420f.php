@@ -2,9 +2,7 @@
 <html>
 <head>
     <title>Login - BelajarIn</title>
-
-    <!-- TAILWIND CDN (biar ga putih walau Vite error) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <?php echo app('Illuminate\Foundation\Vite')('resources/css/app.css'); ?>
 </head>
 
 <body class="bg-gray-100">
@@ -12,16 +10,11 @@
 <div class="min-h-screen flex">
 
     <!-- LEFT -->
-<<<<<<< HEAD
     <div class="hidden md:flex w-1/2 relative">
         <!-- <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" -->
              class="absolute w-full h-full object-cover">
 
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-=======
-    <div class="hidden md:flex w-1/2 relative bg-blue-600">
-        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
 
         <div class="relative text-white p-10 flex flex-col justify-end">
             <h1 class="text-3xl font-bold mb-2">
@@ -44,22 +37,23 @@
             </p>
 
             <!-- ERROR -->
-            @if ($errors->any())
+            <?php if($errors->any()): ?>
                 <div class="bg-red-100 text-red-600 p-2 rounded mb-3">
-                    @foreach ($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
+                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div><?php echo e($error); ?></div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            @if(session('error'))
+            <?php if(session('error')): ?>
                 <div class="bg-red-100 text-red-600 p-2 rounded mb-3">
-                    {{ session('error') }}
-                </div>
-            @endif
+                    <?php echo e(session('error')); ?>
 
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
+                </div>
+            <?php endif; ?>
+
+            <form method="POST" action="<?php echo e(route('login')); ?>">
+                <?php echo csrf_field(); ?>
 
                 <!-- ROLE -->
                 <div class="mb-4">
@@ -129,7 +123,7 @@
 
 </div>
 
-<!-- SCRIPT ROLE -->
+<!-- SCRIPT FIX -->
 <script>
 function setRole(e, role) {
     document.getElementById('role').value = role;
@@ -145,4 +139,4 @@ function setRole(e, role) {
 </script>
 
 </body>
-</html>
+</html><?php /**PATH C:\Users\user\SI2301-KELF\resources\views/auth/login.blade.php ENDPATH**/ ?>
