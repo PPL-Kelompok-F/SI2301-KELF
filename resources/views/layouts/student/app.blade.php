@@ -17,7 +17,11 @@
          :class="show ? 'w-56' : 'w-16'">
 
         <!-- BRAND -->
+<<<<<<< HEAD
         <div class="flex items-center h-16 font-bold space-x-2 px-3">
+=======
+        <div class="flex items-center h-16 font-bold space-x-2">
+>>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
             <span class="text-blue-400 text-xl">🎯</span>
             <span x-show="show">BelajarIn</span>
         </div>
@@ -46,6 +50,11 @@
                 <span x-show="show">Assignment</span>
             </a>
 
+<<<<<<< HEAD
+=======
+            
+
+>>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
         </div>
 
         <!-- BOTTOM MENU -->
@@ -85,6 +94,7 @@
 
         <!-- TOPBAR -->
         <div class="flex justify-between items-center px-6 py-3 bg-white shadow">
+<<<<<<< HEAD
 
             <h1 class="font-bold text-lg">Dashboard</h1>
 
@@ -106,6 +116,14 @@
 
             </div>
 
+=======
+            <h1 class="font-bold">Dashboard</h1>
+
+            <div class="flex items-center gap-3">
+                <span>{{ auth()->user()->name }}</span>
+                <img src="https://picsum.photos/100" class="w-8 h-8 rounded-full">
+            </div>
+>>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
         </div>
 
         <!-- MAIN -->
