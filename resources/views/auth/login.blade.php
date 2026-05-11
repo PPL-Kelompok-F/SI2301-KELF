@@ -3,7 +3,7 @@
 <head>
     <title>Login - BelajarIn</title>
 
-    <!-- TAILWIND CDN (biar ga putih walau Vite error) -->
+    <!-- TAILWIND CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -12,21 +12,15 @@
 <div class="min-h-screen flex">
 
     <!-- LEFT -->
-<<<<<<< HEAD
-    <div class="hidden md:flex w-1/2 relative">
-        <!-- <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" -->
-             class="absolute w-full h-full object-cover">
-
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-=======
     <div class="hidden md:flex w-1/2 relative bg-blue-600">
+
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
 
         <div class="relative text-white p-10 flex flex-col justify-end">
             <h1 class="text-3xl font-bold mb-2">
                 Edit Smarter. Export Faster.
             </h1>
+
             <p class="text-sm text-gray-200">
                 Create Anywhere. Build your LMS.
             </p>
@@ -39,6 +33,7 @@
         <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
 
             <h2 class="text-2xl font-bold mb-2">Welcome Back!</h2>
+
             <p class="text-gray-500 text-sm mb-6">
                 Login to start your learning
             </p>
@@ -88,6 +83,7 @@
                 <!-- EMAIL -->
                 <div class="mb-4">
                     <label class="text-sm">Email</label>
+
                     <input type="email" name="email"
                         class="w-full mt-1 px-4 py-2 border rounded-lg"
                         required>
@@ -96,6 +92,7 @@
                 <!-- PASSWORD -->
                 <div class="mb-4">
                     <label class="text-sm">Password</label>
+
                     <input type="password" name="password"
                         class="w-full mt-1 px-4 py-2 border rounded-lg"
                         required>
@@ -104,7 +101,8 @@
                 <!-- REMEMBER -->
                 <div class="flex justify-between items-center mb-4 text-sm">
                     <label>
-                        <input type="checkbox" name="remember"> Remember Me
+                        <input type="checkbox" name="remember">
+                        Remember Me
                     </label>
                 </div>
 
@@ -119,6 +117,7 @@
             <!-- REGISTER -->
             <p class="text-center text-sm mt-4">
                 Don't have an account?
+
                 <a href="/register" class="text-indigo-500 font-medium">
                     Sign up here
                 </a>

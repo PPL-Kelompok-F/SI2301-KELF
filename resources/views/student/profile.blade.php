@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('layouts.student.app')
 
 @section('content')
@@ -54,64 +53,81 @@
         <!-- RIGHT -->
         <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow">
 
-            <form method="POST" action="{{ url('/student/profile') }}" enctype="multipart/form-data">
+            <form method="POST"
+                  action="{{ url('/student/profile') }}"
+                  enctype="multipart/form-data">
+
                 @csrf
 
                 <!-- NAME -->
                 <div class="mb-4">
                     <label class="block mb-1 font-medium">Name</label>
-                    <input type="text" name="name"
-                        value="{{ old('name', $user->name) }}"
-                        class="w-full border rounded-lg px-3 py-2">
+
+                    <input type="text"
+                           name="name"
+                           value="{{ old('name', $user->name) }}"
+                           class="w-full border rounded-lg px-3 py-2">
                 </div>
 
                 <!-- EMAIL -->
                 <div class="mb-4">
                     <label class="block mb-1 font-medium">Email</label>
-                    <input type="email" name="email"
-                        value="{{ old('email', $user->email) }}"
-                        class="w-full border rounded-lg px-3 py-2">
+
+                    <input type="email"
+                           name="email"
+                           value="{{ old('email', $user->email) }}"
+                           class="w-full border rounded-lg px-3 py-2">
                 </div>
 
                 <!-- PHOTO -->
-<div class="mb-4">
-    <label class="block mb-1 font-medium">Photo</label>
-    <input type="file" name="photo"
-        class="w-full border rounded-lg px-3 py-2">
+                <div class="mb-4">
+                    <label class="block mb-1 font-medium">Photo</label>
 
-    @error('photo')
-        <div class="text-red-500 text-sm mt-1">
-            {{ $message }}
-        </div>
-    @enderror
-</div>
+                    <input type="file"
+                           name="photo"
+                           class="w-full border rounded-lg px-3 py-2">
+
+                    @error('photo')
+                        <div class="text-red-500 text-sm mt-1">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
 
                 <hr class="my-6">
 
-                <h2 class="font-semibold mb-4 text-lg">Change Password</h2>
+                <h2 class="font-semibold mb-4 text-lg">
+                    Change Password
+                </h2>
 
                 <!-- OLD PASSWORD -->
                 <div class="mb-4">
                     <label>Password Lama</label>
-                    <input type="password" name="old_password"
-                        class="w-full border rounded-lg px-3 py-2">
+
+                    <input type="password"
+                           name="old_password"
+                           class="w-full border rounded-lg px-3 py-2">
                 </div>
 
                 <!-- NEW PASSWORD -->
                 <div class="mb-4">
                     <label>Password Baru</label>
-                    <input type="password" name="password"
-                        class="w-full border rounded-lg px-3 py-2">
+
+                    <input type="password"
+                           name="password"
+                           class="w-full border rounded-lg px-3 py-2">
                 </div>
 
                 <!-- CONFIRM -->
                 <div class="mb-6">
                     <label>Konfirmasi Password</label>
-                    <input type="password" name="password_confirmation"
-                        class="w-full border rounded-lg px-3 py-2">
+
+                    <input type="password"
+                           name="password_confirmation"
+                           class="w-full border rounded-lg px-3 py-2">
                 </div>
 
-                <!-- BUTTON (FIX IMPORTANT) -->
+                <!-- BUTTON -->
                 <button type="submit"
                         class="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-2 rounded-lg">
                     Save Changes
@@ -122,53 +138,6 @@
         </div>
 
     </div>
-=======
-@extends('layouts.app')
-
-@section('content')
-
-<h1 class="text-2xl font-bold mb-6">Profile</h1>
-
-@if(session('success'))
-    <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
-        {{ session('success') }}
-    </div>
-@endif
-
-<div class="bg-white p-6 rounded-xl shadow max-w-lg">
-
-    <form method="POST" action="/profile">
-        @csrf
-
-        <!-- NAME -->
-        <div class="mb-4">
-            <label class="block mb-1">Name</label>
-            <input type="text" name="name"
-                value="{{ $user->name }}"
-                class="w-full border rounded px-3 py-2">
-        </div>
-
-        <!-- EMAIL -->
-        <div class="mb-4">
-            <label class="block mb-1">Email</label>
-            <input type="email" name="email"
-                value="{{ $user->email }}"
-                class="w-full border rounded px-3 py-2">
-        </div>
-
-        <!-- PASSWORD -->
-        <div class="mb-4">
-            <label class="block mb-1">New Password (optional)</label>
-            <input type="password" name="password"
-                class="w-full border rounded px-3 py-2">
-        </div>
-
-        <button class="bg-blue-500 text-white px-4 py-2 rounded">
-            Update Profile
-        </button>
-
-    </form>
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
 
 </div>
 
