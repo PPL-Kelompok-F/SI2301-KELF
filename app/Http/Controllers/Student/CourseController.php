@@ -2,16 +2,28 @@
 
 namespace App\Http\Controllers\Student;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Material;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CourseController extends Controller
 {
     public function courses()
     {
-        $allCourses = DB::table('courses')->get();
+        // PROTEKSI ROLE
+        if (!auth()->check() || auth()->user()->role !== 'student') {
+            abort(403);
+        }
 
-        return view('student.courses', compact('allCourses'));
+        $allCourses = Schema::hasTable('courses')
+            ? DB::table('courses')->get()
+            : collect();
+
+        $materials = Schema::hasTable('materials')
+            ? Material::with('teacher')->latest()->get()
+            : collect();
+
+        return view('student.courses', compact('allCourses', 'materials'));
     }
 }

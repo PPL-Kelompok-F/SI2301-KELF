@@ -32,7 +32,7 @@
                 <span x-show="show">Dashboard</span>
             </a>
 
-            <a href="#"
+            <a href="/teacher/materials"
                class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
                :class="{'justify-center': !show}">
                 <span>📚</span>

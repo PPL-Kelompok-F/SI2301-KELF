@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin\DashboardController;
-use Illuminate\Http\Request;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
-    }
-}
-
+        // PROTEKSI ROLE
         if (!auth()->check() || auth()->user()->role !== 'admin') {
             abort(403);
         }

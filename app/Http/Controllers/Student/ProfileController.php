@@ -1,8 +1,11 @@
 <?php
-namespace App\Http\Student\ProfileControllers;
+
+namespace App\Http\Controllers\Student;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
@@ -10,12 +13,10 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        return view('student.profile', compact('user'));
         /** @var User $user */
         $user = Auth::user() ?? abort(403);
 
-        return view('pages.profile', compact('user'));
+        return view('student.profile', compact('user'));
     }
 
     public function update(Request $request)
@@ -42,10 +43,11 @@ class ProfileController extends Controller
             }
 
             $path = $request->file('photo')->store('profile', 'public');
+
             $user->photo = $path;
         }
 
-        // update password (harus pakai password lama)
+        // update password
         if ($request->filled('password')) {
 
             if (!Hash::check($request->old_password, $user->password)) {
@@ -56,12 +58,6 @@ class ProfileController extends Controller
                 'password' => 'min:6|confirmed'
             ]);
 
-        ]);
-
-        $user->name = $request->name;
-        $user->email = $request->email;
-
-        if ($request->password) {
             $user->password = bcrypt($request->password);
         }
 

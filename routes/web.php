@@ -7,6 +7,7 @@ use App\Http\Controllers\Student\DashboardController as StudentDashboardControll
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Teacher\MaterialController as TeacherMaterialController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 // redirect root
@@ -69,6 +70,9 @@ Route::middleware('auth')->prefix('student')->group(function () {
 
 Route::middleware('auth')->prefix('teacher')->group(function () {
     Route::get('/dashboard', [TeacherDashboardController::class, 'index']);
+    Route::resource('materials', TeacherMaterialController::class)
+        ->except(['show'])
+        ->names('teacher.materials');
     // Tambahkan route lain untuk teacher di sini
 });
 
