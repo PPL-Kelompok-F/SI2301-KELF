@@ -31,12 +31,39 @@ class User extends Authenticatable
         ];
     }
 
+    // =========================
     // ROLE CHECK
-    public function isAdmin() { return $this->role === 'admin'; }
-    public function isTeacher() { return $this->role === 'teacher'; }
-    public function isStudent() { return $this->role === 'student'; }
+    // =========================
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isTeacher()
+    {
+        return $this->role === 'teacher';
+    }
+
+    public function isStudent()
+    {
+        return $this->role === 'student';
+    }
 
     // ================= RELATION =================
+
+    // classroom milik teacher
+    public function classrooms()
+    {
+        return $this->hasMany(Classroom::class, 'teacher_id');
+    }
+
+    // assignment milik teacher
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class, 'teacher_id');
+    }
+
+    // submission milik student
     public function submissions()
     {
         return $this->hasMany(Submission::class, 'student_id');

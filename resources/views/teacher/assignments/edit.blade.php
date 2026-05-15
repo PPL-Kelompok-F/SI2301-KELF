@@ -92,11 +92,11 @@
             Deadline (Date & Time)
         </label>
 
-        <input type="datetime-local"
-               name="deadline"
-               value="{{ $deadline->format('Y-m-d\TH:i') }}"
-               min="{{ now()->format('Y-m-d\TH:i') }}"
-               class="w-full border p-2 rounded">
+    <input type="datetime-local"
+        name="deadline"
+        value="{{ \Carbon\Carbon::parse($assignment->deadline)->format('Y-m-d\TH:i') }}"
+        min="{{ date('Y-m-d\TH:i') }}"
+        class="w-full border p-2 rounded">
 
     </div>
 

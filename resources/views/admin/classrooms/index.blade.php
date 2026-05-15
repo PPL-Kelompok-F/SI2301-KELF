@@ -91,7 +91,7 @@
 
                 <td class="p-4">
 
-                    {{ $classroom->teacher }}
+                    {{ $classroom->teacher->name }}
 
                 </td>
 

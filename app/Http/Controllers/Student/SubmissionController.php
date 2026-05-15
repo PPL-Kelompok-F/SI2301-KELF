@@ -54,7 +54,6 @@ class SubmissionController extends Controller
             );
         }
 
-        // 🔥 FIX REALTIME TIMEZONE
         $now = now()->timezone('Asia/Jakarta');
         $deadline = \Carbon\Carbon::parse($assignment->deadline)->timezone('Asia/Jakarta');
 

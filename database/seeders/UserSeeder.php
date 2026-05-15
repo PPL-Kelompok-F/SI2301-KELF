@@ -17,10 +17,19 @@ class UserSeeder extends Seeder
         // ================= TEACHER =================
         // Teacher untuk testing/demo
         User::firstOrCreate(
-            ['email' => 'teacher@gmail.com'],
+            ['email' => 'teacher1@gmail.com'],
             [
-                'name' => 'Teacher LMS',
+                'name' => 'Teacher One',
                 'password' => Hash::make('123456'),
+                'role' => 'teacher',
+            ]
+        );
+
+        User::firstOrCreate(
+            ['email' => 'teacher2@gmail.com'],
+            [
+                'name' => 'Teacher Two',
+                'password' => Hash::make('654321'),
                 'role' => 'teacher',
             ]
         );
@@ -42,7 +51,7 @@ class UserSeeder extends Seeder
             ['email' => 'student2@gmail.com'],
             [
                 'name' => 'Student Two',
-                'password' => Hash::make('123456'),
+                'password' => Hash::make('654321'),
                 'role' => 'student',
             ]
         );

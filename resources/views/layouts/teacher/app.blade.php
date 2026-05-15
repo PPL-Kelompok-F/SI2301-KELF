@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>Teacher - BelajarIn</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
@@ -18,55 +20,138 @@
 
         <!-- BRAND -->
         <div class="flex items-center h-16 font-bold space-x-2 px-2">
-            <span class="text-green-400 text-xl">👨‍🏫</span>
-            <span x-show="show">Teacher</span>
+
+            <span class="text-green-400 text-xl">
+                👨‍🏫
+            </span>
+
+            <span x-show="show">
+                Teacher
+            </span>
+
         </div>
 
         <!-- MENU -->
         <div class="flex flex-col space-y-2 px-2">
 
+            <!-- DASHBOARD -->
             <a href="/teacher/dashboard"
                class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
                :class="{'justify-center': !show}">
+
                 <span>🏠</span>
-                <span x-show="show">Dashboard</span>
+
+                <span x-show="show">
+                    Dashboard
+                </span>
+
             </a>
 
+            <!-- CLASSROOM -->
+            <a href="/teacher/classrooms"
+               class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
+               :class="{'justify-center': !show}">
+
+                <span>📚</span>
+
+                <span x-show="show">
+                    My Classrooms
+                </span>
+
+            </a>
+
+            <!-- COURSES -->
+            <a href="/teacher/courses"
+            class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
+            :class="{'justify-center': !show}">
+
+                <span>🎓</span>
+
+                <span x-show="show">
+                    My Courses
+                </span>
+
+            </a>
+
+            <!-- ASSIGNMENTS -->
             <a href="/teacher/assignments"
                class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
                :class="{'justify-center': !show}">
+
                 <span>📝</span>
-                <span x-show="show">Assignments</span>
+
+                <span x-show="show">
+                    Assignments
+                </span>
+
             </a>
 
-            <!-- 🔥 GRADING MENU (FIX BARU) -->
+            <!-- GRADING -->
             <a href="/teacher/submissions"
                class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
                :class="{'justify-center': !show}">
+
                 <span>📄</span>
-                <span x-show="show">Grading</span>
+
+                <span x-show="show">
+                    Grading
+                </span>
+
             </a>
+
+            <!-- SUBJECT INFO -->
+            <div class="bg-gray-700 rounded p-3 mt-4"
+                 x-show="show">
+
+                <p class="text-xs text-gray-300">
+                    Logged as:
+                </p>
+
+                <p class="font-bold">
+                    {{ auth()->user()->name }}
+                </p>
+
+                <p class="text-sm text-green-300 mt-1">
+                    {{ auth()->user()->email }}
+                </p>
+
+            </div>
 
         </div>
 
         <!-- BOTTOM -->
         <div class="flex flex-col space-y-2 px-2 mb-4">
 
+            <!-- PROFILE -->
             <a href="#"
                class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
                :class="{'justify-center': !show}">
+
                 <span>👤</span>
-                <span x-show="show">Profile</span>
+
+                <span x-show="show">
+                    Profile
+                </span>
+
             </a>
 
+            <!-- LOGOUT -->
             <form method="POST" action="/logout">
+
                 @csrf
+
                 <button type="submit"
                         class="w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-red-500"
                         :class="{'justify-center': !show}">
+
                     <span>🚪</span>
-                    <span x-show="show">Logout</span>
+
+                    <span x-show="show">
+                        Logout
+                    </span>
+
                 </button>
+
             </form>
 
         </div>
@@ -78,17 +163,29 @@
 
         <!-- TOPBAR -->
         <div class="flex justify-between items-center px-6 py-3 bg-white shadow">
-            <h1 class="font-bold">Teacher Dashboard</h1>
+
+            <h1 class="font-bold text-xl">
+                Teacher Dashboard
+            </h1>
 
             <div class="flex items-center gap-3">
-                <span>{{ auth()->user()->name }}</span>
-                <img src="https://picsum.photos/100" class="w-8 h-8 rounded-full">
+
+                <span>
+                    {{ auth()->user()->name }}
+                </span>
+
+                <img src="https://picsum.photos/100"
+                     class="w-8 h-8 rounded-full">
+
             </div>
+
         </div>
 
         <!-- MAIN -->
         <div class="p-6">
+
             @yield('content')
+
         </div>
 
     </div>

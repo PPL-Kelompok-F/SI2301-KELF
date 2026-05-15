@@ -9,10 +9,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('classrooms', function (Blueprint $table) {
+
             $table->id();
 
             $table->string('name');
-            $table->string('teacher');
+
+            // RELASI KE USERS (TEACHER)
+            $table->foreignId('teacher_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+
             $table->text('description')->nullable();
 
             $table->timestamps();

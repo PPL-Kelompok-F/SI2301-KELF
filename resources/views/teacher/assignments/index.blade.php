@@ -70,34 +70,36 @@ $isClosed = now()->timezone('Asia/Jakarta')->gt($deadline) || $assignment->statu
         </span>
     </div>
 
-    <div class="flex gap-2 items-start">
+    <<div class="flex gap-2 items-center">
 
-        <a href="{{ route('teacher.assignments.show',$assignment->id) }}"
-           class="bg-blue-500 text-white px-3 py-1 rounded">
-            View
-        </a>
+    <a href="{{ route('teacher.assignments.show', $assignment->id) }}"
+       class="bg-blue-500 text-white px-3 py-2 rounded">
+        View
+    </a>
 
-        <a href="{{ route('teacher.assignments.edit',$assignment->id) }}"
-           class="bg-yellow-500 text-white px-3 py-1 rounded">
-            Edit
-        </a>
+    <a href="{{ route('teacher.assignments.edit', $assignment->id) }}"
+       class="bg-yellow-500 text-white px-3 py-2 rounded">
+        Edit
+    </a>
 
-        <form method="POST" action="{{ route('teacher.assignments.close',$assignment->id) }}">
+    @if($assignment->status !== 'closed')
+        <form method="POST" action="{{ route('teacher.assignments.close', $assignment->id) }}">
             @csrf
-            <button class="bg-gray-600 text-white px-3 py-1 rounded">
+            <button class="bg-gray-700 text-white px-3 py-2 rounded">
                 Close
             </button>
         </form>
+    @endif
 
-        <form method="POST" action="{{ route('teacher.assignments.destroy',$assignment->id) }}">
-            @csrf
-            @method('DELETE')
-            <button class="bg-red-600 text-white px-3 py-1 rounded">
-                Delete
-            </button>
-        </form>
+    <form method="POST" action="{{ route('teacher.assignments.destroy', $assignment->id) }}"
+          onsubmit="return confirm('Delete this assignment?')">
+        @csrf
+        @method('DELETE')
 
-    </div>
+        <button class="bg-red-600 text-white px-3 py-2 rounded">
+            Delete
+        </button>
+    </form>
 
 </div>
 

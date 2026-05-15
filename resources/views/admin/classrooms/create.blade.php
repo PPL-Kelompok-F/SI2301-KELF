@@ -12,10 +12,11 @@
 
         @csrf
 
+        <!-- NAMA CLASSROOM -->
         <div class="mb-4">
 
             <label class="block mb-2 font-semibold">
-                Nama Kelas
+                Nama Classroom
             </label>
 
             <input type="text"
@@ -28,16 +29,32 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-semibold">
-                Nama Teacher
+                Pilih Teacher
             </label>
 
-            <input type="text"
-                   name="teacher"
-                   class="w-full border p-3 rounded"
-                   required>
+            <select name="teacher_id"
+                    class="w-full border p-3 rounded"
+                    required>
+
+                <option value="">
+                    -- Pilih Teacher --
+                </option>
+
+                @foreach($teachers as $teacher)
+
+                    <option value="{{ $teacher->id }}">
+
+                        {{ $teacher->name }}
+
+                    </option>
+
+                @endforeach
+
+            </select>
 
         </div>
 
+        <!-- DESCRIPTION -->
         <div class="mb-4">
 
             <label class="block mb-2 font-semibold">

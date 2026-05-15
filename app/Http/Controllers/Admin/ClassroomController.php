@@ -5,76 +5,87 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Classroom;
+use App\Models\User;
 
 class ClassroomController extends Controller
 {
     // ===============================
-    // TAMPILKAN SEMUA KELAS
+    // LIST CLASSROOM
     // ===============================
     public function index()
     {
-        $classrooms = Classroom::latest()->get();
+        $classrooms = Classroom::with('teacher')
+            ->latest()
+            ->get();
 
         return view('admin.classrooms.index', compact('classrooms'));
     }
 
     // ===============================
-    // FORM TAMBAH
+    // FORM CREATE
     // ===============================
     public function create()
     {
-        return view('admin.classrooms.create');
+        $teachers = User::where('role', 'teacher')->get();
+
+        return view('admin.classrooms.create', compact('teachers'));
     }
 
     // ===============================
-    // SIMPAN DATA
+    // STORE
     // ===============================
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'teacher' => 'required',
+            'teacher_id' => 'required|exists:users,id',
             'description' => 'nullable'
         ]);
 
         Classroom::create([
             'name' => $request->name,
-            'teacher' => $request->teacher,
+            'teacher_id' => $request->teacher_id,
             'description' => $request->description
         ]);
 
         return redirect('/admin/classrooms')
-            ->with('success', 'Kelas berhasil ditambahkan');
+            ->with('success', 'Kelas berhasil dibuat');
     }
 
     // ===============================
-    // DETAIL KELAS
+    // DETAIL
     // ===============================
     public function show($id)
     {
-        $classroom = Classroom::findOrFail($id);
+        $classroom = Classroom::with('teacher')
+            ->findOrFail($id);
 
         return view('admin.classrooms.show', compact('classroom'));
     }
 
     // ===============================
-    // FORM EDIT
+    // EDIT
     // ===============================
     public function edit($id)
     {
         $classroom = Classroom::findOrFail($id);
 
-        return view('admin.classrooms.edit', compact('classroom'));
+        $teachers = User::where('role', 'teacher')->get();
+
+        return view('admin.classrooms.edit', compact(
+            'classroom',
+            'teachers'
+        ));
     }
 
     // ===============================
-    // UPDATE DATA
+    // UPDATE
     // ===============================
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'teacher' => 'required',
+            'teacher_id' => 'required|exists:users,id',
             'description' => 'nullable'
         ]);
 
@@ -82,7 +93,7 @@ class ClassroomController extends Controller
 
         $classroom->update([
             'name' => $request->name,
-            'teacher' => $request->teacher,
+            'teacher_id' => $request->teacher_id,
             'description' => $request->description
         ]);
 
@@ -91,7 +102,7 @@ class ClassroomController extends Controller
     }
 
     // ===============================
-    // HAPUS DATA
+    // DELETE
     // ===============================
     public function destroy($id)
     {
@@ -99,7 +110,6 @@ class ClassroomController extends Controller
 
         $classroom->delete();
 
-        return redirect('/admin/classrooms')
-            ->with('success', 'Kelas berhasil dihapus');
+        return back()->with('success', 'Kelas berhasil dihapus');
     }
 }

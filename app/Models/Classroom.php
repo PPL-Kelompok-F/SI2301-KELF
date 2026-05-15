@@ -8,11 +8,21 @@ class Classroom extends Model
 {
     protected $fillable = [
         'name',
-        'teacher',
+        'teacher_id',
         'description'
     ];
 
-    // RELASI: classroom punya banyak assignment
+    // ===============================
+    // RELASI KE TEACHER
+    // ===============================
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+
+    // ===============================
+    // RELASI ASSIGNMENTS
+    // ===============================
     public function assignments()
     {
         return $this->hasMany(Assignment::class);

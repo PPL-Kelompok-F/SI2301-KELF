@@ -3,8 +3,8 @@
 @section('content')
 
 @php
-$deadline = \Carbon\Carbon::parse($assignment->deadline)->timezone('Asia/Jakarta');
-$isClosed = now()->timezone('Asia/Jakarta')->gt($deadline);
+    $deadline = \Carbon\Carbon::parse($assignment->deadline);
+    $isClosed = now()->greaterThan($deadline);
 @endphp
 
 <h2 class="text-2xl font-bold mb-4">

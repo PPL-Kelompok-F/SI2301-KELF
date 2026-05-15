@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class AssignmentController extends Controller
 {
@@ -21,7 +23,7 @@ class AssignmentController extends Controller
 
     public function create()
     {
-        $classrooms = Classroom::all();
+        $classrooms = Classroom::where('teacher_id', auth()->id())->get();
         return view('teacher.assignments.create', compact('classrooms'));
     }
 
@@ -39,12 +41,7 @@ class AssignmentController extends Controller
 
         if ($request->hasFile('file')) {
             $fileName = time().'_'.$request->file('file')->getClientOriginalName();
-
-            $request->file('file')->storeAs(
-                'assignments',
-                $fileName,
-                'public'
-            );
+            $request->file('file')->storeAs('assignments', $fileName, 'public');
         }
 
         Assignment::create([
@@ -72,15 +69,18 @@ class AssignmentController extends Controller
 
     public function edit($id)
     {
-        $assignment = Assignment::findOrFail($id);
-        $classrooms = Classroom::all();
+        $assignment = Assignment::where('teacher_id', auth()->id())
+            ->findOrFail($id);
+
+        $classrooms = Classroom::where('teacher_id', auth()->id())->get();
 
         return view('teacher.assignments.edit', compact('assignment','classrooms'));
     }
 
     public function update(Request $request, $id)
     {
-        $assignment = Assignment::findOrFail($id);
+        $assignment = Assignment::where('teacher_id', auth()->id())
+            ->findOrFail($id);
 
         $request->validate([
             'classroom_id' => 'required|exists:classrooms,id',
@@ -94,12 +94,7 @@ class AssignmentController extends Controller
 
         if ($request->hasFile('file')) {
             $fileName = time().'_'.$request->file('file')->getClientOriginalName();
-
-            $request->file('file')->storeAs(
-                'assignments',
-                $fileName,
-                'public'
-            );
+            $request->file('file')->storeAs('assignments', $fileName, 'public');
         }
 
         $assignment->update([
@@ -112,5 +107,41 @@ class AssignmentController extends Controller
 
         return redirect()->route('teacher.assignments.index')
             ->with('success', 'Updated');
+    }
+
+    public function destroy($id)
+    {
+        $assignment = Assignment::where('teacher_id', auth()->id())
+            ->findOrFail($id);
+
+        if ($assignment->file) {
+            Storage::disk('public')->delete('assignments/'.$assignment->file);
+        }
+
+        $assignment->delete();
+
+        return back()->with('success', 'Deleted');
+    }
+
+    public function close($id)
+    {
+        $assignment = Assignment::where('teacher_id', auth()->id())
+            ->findOrFail($id);
+
+        $assignment->status = 'closed';
+        $assignment->save();
+
+        return back()->with('success', 'Closed');
+    }
+
+    public function updateStatus($id)
+    {
+        $assignment = Assignment::where('teacher_id', auth()->id())
+            ->findOrFail($id);
+
+        $assignment->status = $assignment->status === 'draft' ? 'published' : 'draft';
+        $assignment->save();
+
+        return back();
     }
 }

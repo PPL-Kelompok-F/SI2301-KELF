@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Teacher\ClassroomController as TeacherClassroomController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\UserController;
@@ -75,6 +76,10 @@ Route::middleware(['auth', 'role:teacher'])
         
         Route::post('/teacher/assignments/{id}/close', [AssignmentController::class, 'close'])
             ->name('teacher.assignments.close');
+
+        // ================= CLASSROOM =================
+        Route::get('/classrooms', [TeacherClassroomController::class, 'index'])
+            ->name('teacher.classrooms');
 
         // ================= GRADING =================
 
