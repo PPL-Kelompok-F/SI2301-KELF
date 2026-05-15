@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class UserController extends Controller
+{
+    // tampilkan semua user
+    public function index()
+    {
+        // proteksi admin
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+
+        $users = User::latest()->get();
+
+        return view('admin.users', compact('users'));
+    }
+
+    // update role user
+    public function updateRole(Request $request, $id)
+    {
+        // proteksi admin
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+
+        $request->validate([
+            'role' => 'required|in:admin,teacher,student'
+        ]);
+
+        $user = User::findOrFail($id);
+
+        // cegah admin ubah role dirinya sendiri
+        if ($user->id == auth()->id()) {
+            return back()->with('error', 'Tidak bisa mengubah role akun sendiri');
+        }
+
+        $user->update([
+            'role' => $request->role
+        ]);
+
+        return back()->with('success', 'Role user berhasil diubah');
+    }
+}

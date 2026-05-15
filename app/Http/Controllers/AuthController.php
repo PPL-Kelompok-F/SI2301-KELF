@@ -19,26 +19,55 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    // ================= LOGIN =================
     public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'role' => 'required|in:admin,teacher,student',
         ]);
 
-        if (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password,
-        ], $request->remember)) {
+        // 🔥 CEK AKUN TERDAFTAR ATAU TIDAK
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->with('error', 'Akun tidak ditemukan');
+        }
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
 
-            return $this->redirectByRole(Auth::user()->role);
+            $authUser = Auth::user();
+
+            // =========================
+            // ROLE VALIDATION (SAFE ADMIN)
+            // =========================
+            if ($authUser->role !== $request->role) {
+
+                // admin tetap boleh masuk tanpa error role UI
+                if ($authUser->role === 'admin') {
+                    return redirect('/admin/dashboard');
+                }
+
+                Auth::logout();
+                return back()->with('error', 'Role tidak sesuai dengan akun ini');
+            }
+
+            return match ($authUser->role) {
+                'admin' => redirect('/admin/dashboard'),
+                'teacher' => redirect('/teacher/dashboard'),
+                default => redirect('/student/dashboard'),
+            };
         }
 
         return back()->with('error', 'Email atau password salah');
     }
 
+    // ================= REGISTER =================
     public function register(Request $request)
     {
         $request->validate([
@@ -57,18 +86,11 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return $this->redirectByRole($user->role);
+        // 🔥 FIX: jangan langsung dashboard, balik ke login
+        return redirect('/login')->with('success', 'Register berhasil, silakan login');
     }
 
-    private function redirectByRole($role)
-    {
-        return match ($role) {
-            'admin' => redirect('/admin/dashboard'),
-            'teacher' => redirect('/teacher/dashboard'),
-            default => redirect('/student/dashboard'),
-        };
-    }
-
+    // ================= LOGOUT =================
     public function logout(Request $request)
     {
         Auth::logout();

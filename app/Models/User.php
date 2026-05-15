@@ -32,18 +32,13 @@ class User extends Authenticatable
     }
 
     // ROLE CHECK
-    public function isAdmin()
-    {
-        return $this->role === 'admin';
-    }
+    public function isAdmin() { return $this->role === 'admin'; }
+    public function isTeacher() { return $this->role === 'teacher'; }
+    public function isStudent() { return $this->role === 'student'; }
 
-    public function isTeacher()
+    // ================= RELATION =================
+    public function submissions()
     {
-        return $this->role === 'teacher';
-    }
-
-    public function isStudent()
-    {
-        return $this->role === 'student';
+        return $this->hasMany(Submission::class, 'student_id');
     }
 }

@@ -32,18 +32,19 @@
                 <span x-show="show">Dashboard</span>
             </a>
 
-            <a href="#"
-               class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
-               :class="{'justify-center': !show}">
-                <span>📚</span>
-                <span x-show="show">Manage Courses</span>
-            </a>
-
-            <a href="#"
+            <a href="/teacher/assignments"
                class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
                :class="{'justify-center': !show}">
                 <span>📝</span>
                 <span x-show="show">Assignments</span>
+            </a>
+
+            <!-- 🔥 GRADING MENU (FIX BARU) -->
+            <a href="/teacher/submissions"
+               class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-green-500"
+               :class="{'justify-center': !show}">
+                <span>📄</span>
+                <span x-show="show">Grading</span>
             </a>
 
         </div>

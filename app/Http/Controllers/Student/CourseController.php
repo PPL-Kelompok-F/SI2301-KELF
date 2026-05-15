@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Student;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Classroom;
 
 class CourseController extends Controller
 {
     public function courses()
     {
-        $allCourses = DB::table('courses')->get();
+        $allCourses = Classroom::latest()->get();
 
         return view('student.courses', compact('allCourses'));
     }

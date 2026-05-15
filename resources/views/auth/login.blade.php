@@ -2,8 +2,6 @@
 <html>
 <head>
     <title>Login - BelajarIn</title>
-
-    <!-- TAILWIND CDN (biar ga putih walau Vite error) -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -12,16 +10,10 @@
 <div class="min-h-screen flex">
 
     <!-- LEFT -->
-    <div class="hidden md:flex w-1/2 relative bg-blue-600">
-        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-
-        <div class="relative text-white p-10 flex flex-col justify-end">
-            <h1 class="text-3xl font-bold mb-2">
-                Edit Smarter. Export Faster.
-            </h1>
-            <p class="text-sm text-gray-200">
-                Create Anywhere. Build your LMS.
-            </p>
+    <div class="hidden md:flex w-1/2 bg-blue-600 items-end p-10 text-white">
+        <div>
+            <h1 class="text-3xl font-bold">Edit Smarter. Export Faster.</h1>
+            <p class="text-sm text-gray-200">Create Anywhere. Build your LMS.</p>
         </div>
     </div>
 
@@ -31,9 +23,14 @@
         <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
 
             <h2 class="text-2xl font-bold mb-2">Welcome Back!</h2>
-            <p class="text-gray-500 text-sm mb-6">
-                Login to start your learning
-            </p>
+            <p class="text-gray-500 text-sm mb-6">Login to start your learning</p>
+
+            <!-- ✅ SUCCESS MESSAGE (HASIL REGISTER) -->
+            @if(session('success'))
+                <div class="bg-green-100 text-green-600 p-2 rounded mb-3">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <!-- ERROR -->
             @if ($errors->any())
@@ -50,10 +47,10 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ url('/login') }}">
                 @csrf
 
-                <!-- ROLE -->
+                <!-- ROLE BUTTON -->
                 <div class="mb-4">
                     <label class="text-sm mb-2 block">Sign in as</label>
 
@@ -93,14 +90,6 @@
                         required>
                 </div>
 
-                <!-- REMEMBER -->
-                <div class="flex justify-between items-center mb-4 text-sm">
-                    <label>
-                        <input type="checkbox" name="remember"> Remember Me
-                    </label>
-                </div>
-
-                <!-- BUTTON -->
                 <button type="submit"
                     class="w-full bg-black text-white py-2 rounded-lg">
                     Login
@@ -108,7 +97,6 @@
 
             </form>
 
-            <!-- REGISTER -->
             <p class="text-center text-sm mt-4">
                 Don't have an account?
                 <a href="/register" class="text-indigo-500 font-medium">
@@ -121,7 +109,6 @@
 
 </div>
 
-<!-- SCRIPT ROLE -->
 <script>
 function setRole(e, role) {
     document.getElementById('role').value = role;
