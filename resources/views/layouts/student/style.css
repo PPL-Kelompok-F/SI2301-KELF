@@ -62,3 +62,18 @@ body {
   opacity: 1;
   transform: translate(0);
 }
+
+.dark-mode {
+    background: #111827 !important;
+    color: white !important;
+}
+
+.high-contrast {
+    background: black !important;
+    color: yellow !important;
+}
+
+.reduce-motion * {
+    animation: none !important;
+    transition: none !important;
+}

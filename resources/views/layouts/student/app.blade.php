@@ -8,7 +8,138 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
+
+<script>
+
+
+function increaseFont() {
+
+    let size =
+        parseFloat(
+            getComputedStyle(document.documentElement)
+            .fontSize
+        );
+
+    document.documentElement.style.fontSize =
+        (size + 2) + 'px';
+}
+
+function toggleMotion() {
+    document.body.classList.toggle('reduce-motion');
+}
+
+function readPage() {
+
+    if (!('speechSynthesis' in window)) {
+        alert('Browser tidak mendukung text-to-speech');
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(
+        document.body.innerText
+    );
+
+    speech.lang = 'id-ID';
+
+    speechSynthesis.speak(speech);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    if(localStorage.getItem('darkMode') === 'true'){
+        document.body.classList.add('dark-mode');
+    }
+
+    if(localStorage.getItem('highContrast') === 'true'){
+        document.body.classList.add('high-contrast');
+    }
+
+    if(localStorage.getItem('reduceMotion') === 'true'){
+        document.body.classList.add('reduce-motion');
+    }
+
+});
+
+// Dark Mode
+function toggleDarkMode() {
+
+    document.body.classList.toggle('dark-mode');
+
+    localStorage.setItem(
+        'darkMode',
+        document.body.classList.contains('dark-mode')
+    );
+}
+
+// High Contrast
+function toggleContrast() {
+
+    document.body.classList.toggle('high-contrast');
+
+    localStorage.setItem(
+        'highContrast',
+        document.body.classList.contains('high-contrast')
+    );
+}
+
+// Reduce Motion
+function toggleMotion() {
+
+    document.body.classList.toggle('reduce-motion');
+
+    localStorage.setItem(
+        'reduceMotion',
+        document.body.classList.contains('reduce-motion')
+    );
+}
+
+
+</script>
+
 <body class="bg-gray-100">
+
+<div x-data="{ open:false }">
+
+    <!-- Floating Button -->
+    <button
+        @click="open=!open"
+        class="fixed bottom-5 right-5 w-14 h-14 rounded-full bg-blue-600 text-white shadow-lg z-50">
+
+        <i class="fa-solid fa-universal-access text-xl"></i>
+
+    </button>
+
+    <!-- Panel -->
+    <div x-show="open"
+         class="fixed bottom-24 right-5 w-72 bg-white rounded-xl shadow-xl p-4 z-50">
+
+        <h3 class="font-bold mb-3">
+            Aksesibilitas
+        </h3>
+
+        <div class="space-y-3">
+
+            <button onclick="increaseFont()"
+                    class="w-full bg-gray-100 p-2 rounded">
+                <i class="fa-solid fa-magnifying-glass"></i> Perbesar Font
+            </button>
+
+            <button onclick="readPage()"
+                    class="w-full bg-gray-100 p-2 rounded">
+                <i class="fa-solid fa-headphones"></i> Suarakan Halaman
+            </button>
+
+            <button onclick="speechSynthesis.cancel()"
+                    class="w-full bg-red-100 p-2 rounded">
+                <i class="fa-solid fa-stop"></i> Hentikan Suara
+            </button>
+        </div>
+
+    </div>
+
+</div>
 
 <div x-data="{ show: false }" class="flex h-screen">
 

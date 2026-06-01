@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
+use App\Http\Controllers\Student\StreakController;
 
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 
@@ -39,6 +40,7 @@ Route::middleware('auth')->prefix('student')->group(function () {
     Route::view('/report', 'pages.report');
     Route::view('/payment', 'pages.payment');
     Route::view('/profile', 'pages.profile');
+    Route::get('/streak', [StreakController::class, 'index']);
 
     //Untuk enroll course
 

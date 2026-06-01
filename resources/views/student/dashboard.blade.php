@@ -32,7 +32,7 @@
 
     {{-- GREETING --}}
     <h1 class="text-2xl font-extrabold mb-6" style="font-family:'Sora',sans-serif;">
-        Halo, <span class="text-indigo-500">{{ $user->name }}</span> 👋
+        Halo, <span class="text-indigo-500">{{ $user->name }}</span>
     </h1>
 
     {{-- STAT CARDS --}}
@@ -40,7 +40,7 @@
 
         <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative overflow-hidden">
             <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-orange-100 opacity-60"></div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">🔥 Streak</p>
+            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1"><i class="fa-solid fa-fire" style="color: rgb(242, 164, 55);"></i> Streak</p>
             <p class="text-3xl font-extrabold text-gray-900" style="font-family:'Sora',sans-serif;">
                 {{ $streak ?? 0 }} <span class="text-lg font-semibold text-gray-400">hari</span>
             </p>
@@ -48,7 +48,7 @@
 
         <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative overflow-hidden">
             <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-emerald-100 opacity-60"></div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">📚 Courses</p>
+            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1"><i class="fa-solid fa-book-open" style="color: rgb(116, 192, 252);"></i> Courses</p>
             <p class="text-3xl font-extrabold text-gray-900" style="font-family:'Sora',sans-serif;">
                 {{ $courses->count() }}
             </p>
@@ -56,26 +56,28 @@
 
         <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative overflow-hidden">
             <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-indigo-100 opacity-60"></div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">⭐ Avg Score</p>
+            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1"><i class="fa-solid fa-star" style="color: rgb(255, 212, 59);"></i> Avg Score</p>
             <p class="text-3xl font-extrabold text-gray-900" style="font-family:'Sora',sans-serif;">
-                {{ round($avgScore ?? 0) }}
+                0<!-- {{ round($avgScore ?? 0) }} -->
             </p>
         </div>
 
     </div>
 
-    {{-- STREAK WIDGET (Duolingo style) --}}
+    <!-- Streak widget -->
     <div class="bg-white rounded-2xl p-5 shadow-sm border border-indigo-100 mb-6">
         <div class="flex items-center justify-between mb-4">
             <p class="font-bold text-gray-700" style="font-family:'Sora',sans-serif;">Weekly Streak</p>
             <div class="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-xl px-4 py-2">
-                <span class="streak-fire text-2xl">🔥</span>
-                <div>
-                    <p class="text-2xl font-extrabold text-orange-500 leading-none" style="font-family:'Sora',sans-serif;">
-                        {{ $streak ?? 0 }}
-                    </p>
-                    <p class="text-xs text-orange-400">hari berturut</p>
-                </div>
+                <span class="streak-fire text-2xl"><i class="fa-solid fa-fire" style="color: rgb(242, 164, 55);"></i></span>
+                <a href="/student/streak" class="text-decoration: underline;">
+                    <div>
+                        <p class="text-2xl font-extrabold text-orange-500 leading-none" style="font-family:'Sora',sans-serif;">
+                            {{ $streak ?? 0 }}
+                        </p>
+                        <p class="text-xs text-orange-400">hari berturut</p>
+                    </div>
+                </a>
             </div>
         </div>
 
