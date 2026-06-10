@@ -5,15 +5,9 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
-<<<<<<< HEAD
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
-
-=======
-
-use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
-
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
+use App\Http\Controllers\Student\ForumController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 // redirect root
@@ -40,16 +34,13 @@ Route::middleware('auth')->prefix('student')->group(function () {
     Route::get('/courses', [StudentCourseController::class, 'courses']);
     Route::view('/quiz', 'pages.quiz');
     Route::view('/assignment', 'pages.assignment');
-    Route::view('/forum', 'pages.forum');
+    Route::get('/forum', [ForumController::class, 'index']);
+    Route::post('/forum', [ForumController::class, 'store']);
     Route::view('/qna', 'pages.qna');
     Route::view('/report', 'pages.report');
     Route::view('/payment', 'pages.payment');
-<<<<<<< HEAD
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::post('/profile', [ProfileController::class, 'update']);
-=======
-    Route::view('/profile', 'pages.profile');
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
 
     //Untuk enroll course
 

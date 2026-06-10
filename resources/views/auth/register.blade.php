@@ -2,9 +2,7 @@
 <html>
 <head>
     <title>Register - BelajarIn</title>
-
-    <!-- FIX BIAR GA PUTIH -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
 </head>
 
 <body class="bg-gray-100">

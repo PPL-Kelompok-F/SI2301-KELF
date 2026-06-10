@@ -1,18 +1,11 @@
 <?php
 
-<<<<<<< HEAD
 namespace App\Http\Controllers\Student;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-=======
-namespace App\Http\Student\ProfileControllers;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
@@ -20,29 +13,17 @@ class ProfileController extends Controller
 {
     public function index()
     {
-<<<<<<< HEAD
         $user = Auth::user();
         return view('student.profile', compact('user'));
-=======
-        /** @var User $user */
-        $user = Auth::user() ?? abort(403);
-
-        return view('pages.profile', compact('user'));
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
     }
 
     public function update(Request $request)
     {
-<<<<<<< HEAD
-=======
-        /** @var User $user */
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
         $user = Auth::user() ?? abort(403);
 
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-<<<<<<< HEAD
             'photo' => 'nullable|image|max:4096',
         ]);
 
@@ -73,14 +54,6 @@ class ProfileController extends Controller
                 'password' => 'min:6|confirmed'
             ]);
 
-=======
-        ]);
-
-        $user->name = $request->name;
-        $user->email = $request->email;
-
-        if ($request->password) {
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
             $user->password = bcrypt($request->password);
         }
 

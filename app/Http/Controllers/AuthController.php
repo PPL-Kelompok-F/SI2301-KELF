@@ -9,26 +9,31 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    // LOGIN PAGE
     public function showLogin()
     {
         return view('auth.login');
     }
 
+    // REGISTER PAGE
     public function showRegister()
     {
         return view('auth.register');
     }
 
+    // LOGIN PROCESS
     public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'role' => 'required'
         ]);
 
         if (Auth::attempt([
             'email' => $request->email,
             'password' => $request->password,
+            'role' => $request->role
         ], $request->remember)) {
 
             $request->session()->regenerate();
@@ -36,16 +41,17 @@ class AuthController extends Controller
             return $this->redirectByRole(Auth::user()->role);
         }
 
-        return back()->with('error', 'Email atau password salah');
+        return back()->with('error', 'Login gagal atau role salah');
     }
 
+    // REGISTER PROCESS
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:6',
-            'role' => 'required|in:admin,teacher,student'
+            'role' => 'required'
         ]);
 
         $user = User::create([
@@ -55,14 +61,15 @@ class AuthController extends Controller
             'role' => $request->role
         ]);
 
+        // AUTO LOGIN
         Auth::login($user);
 
         return $this->redirectByRole($user->role);
     }
 
+    // REDIRECT BY ROLE
     private function redirectByRole($role)
     {
-<<<<<<< HEAD
         if ($role == 'admin') {
             return redirect('/admin/dashboard');
         }
@@ -72,15 +79,9 @@ class AuthController extends Controller
         }
 
         return redirect('/student/dashboard'); // default student
-=======
-        return match ($role) {
-            'admin' => redirect('/admin/dashboard'),
-            'teacher' => redirect('/teacher/dashboard'),
-            default => redirect('/student/dashboard'),
-        };
->>>>>>> c0775043053153af588941b7cef0d7aab53e5f67
     }
 
+    // LOGOUT
     public function logout(Request $request)
     {
         Auth::logout();
