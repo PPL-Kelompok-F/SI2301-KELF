@@ -39,14 +39,26 @@
                 <span x-show="show">Courses</span>
             </a>
 
+            <a href="{{ route('student.quiz') }}"
+               class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-blue-500"
+               :class="{'justify-center': !show}">
+                <span>🎯</span>
+                <span x-show="show">Quiz</span>
+            </a>
+
+            <a href="{{ route('student.payment') }}"
+               class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-blue-500"
+               :class="{'justify-center': !show}">
+                <span>💳</span>
+                <span x-show="show">Payment</span>
+            </a>
+
             <a href="/student/assignment"
                class="flex items-center space-x-2 px-2 py-2 rounded hover:bg-blue-500"
                :class="{'justify-center': !show}">
                 <span>📝</span>
                 <span x-show="show">Assignment</span>
             </a>
-
-            
 
         </div>
 

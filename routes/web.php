@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 // redirect root
 Route::get('/', function () {
-    return redirect('/login');
+    return view('homepage');
 });
 
 //add linne doang untuk testingn
@@ -32,12 +32,19 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth')->prefix('student')->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index']);
     Route::get('/courses', [StudentCourseController::class, 'courses']);
-    Route::view('/quiz', 'pages.quiz');
+    // Quiz
+    Route::get('/quiz', [\App\Http\Controllers\Student\QuizController::class, 'index'])->name('student.quiz');
+    Route::get('/quiz/{materi}', [\App\Http\Controllers\Student\QuizController::class, 'show'])->name('student.quiz.show');
+    Route::post('/quiz/{materi}', [\App\Http\Controllers\Student\QuizController::class, 'submit'])->name('student.quiz.submit');
+    Route::get('/quiz/{materi}/result', [\App\Http\Controllers\Student\QuizController::class, 'result'])->name('student.quiz.result');
+
     Route::view('/assignment', 'pages.assignment');
     Route::view('/forum', 'pages.forum');
     Route::view('/qna', 'pages.qna');
     Route::view('/report', 'pages.report');
-    Route::view('/payment', 'pages.payment');
+    // Payment
+    Route::get('/payment', [\App\Http\Controllers\Student\PaymentController::class, 'index'])->name('student.payment');
+    Route::post('/payment', [\App\Http\Controllers\Student\PaymentController::class, 'store'])->name('student.payment.store');
     Route::view('/profile', 'pages.profile');
 
     //Untuk enroll course

@@ -44,6 +44,7 @@
                     class="w-full px-4 py-2 border rounded-lg">
                     <option value="student">Student</option>
                     <option value="teacher">Teacher</option>
+                    <option value="admin">Admin</option>
                 </select>
             </div>
 
