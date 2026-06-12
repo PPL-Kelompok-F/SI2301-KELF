@@ -98,7 +98,9 @@
                         {{ $isDone  ? 'dot-done text-white'       : '' }}
                         {{ $isToday ? 'dot-today text-indigo-600' : '' }}
                         {{ (!$isDone && !$isToday) ? 'dot-missed text-gray-300' : '' }}">
-                        {{ $isDone ? '✓' : ($isToday ? '🔥' : '') }}
+                        @if ($isDone || $isToday)
+                            <i class="fa-solid fa-fire" style="color: rgb(242, 164, 55);"></i>
+                        @endif
                     </div>
                     <span class="text-xs {{ $isToday ? 'text-indigo-500 font-semibold' : 'text-gray-400' }}">
                         {{ $day }}

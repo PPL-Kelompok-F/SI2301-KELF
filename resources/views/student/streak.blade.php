@@ -16,20 +16,22 @@
     .rank-3 { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
     .rank-n { background: #f3f4f6; color: #9ca3af; border: 1px solid #e5e7eb; font-size: 12px; }
 
-    .streak-val {
-        display: inline-flex; align-items: center; gap: 6px;
-        color: #f97316; font-family: 'Sora', sans-serif; font-weight: 700;
-    }
-
     .leaderboard-row { border-top: 1px solid #f3f4f6; transition: background .15s; }
+    .leaderboard-row.rank-1 { background: #fff9db; }
+    .leaderboard-row.rank-2 { background: #eff6ff; }
+    .leaderboard-row.rank-3 { background: #ecfdf5; }
+
     .leaderboard-row:hover { background: #f9fafb; }
-    .leaderboard-row.is-me { background: #f5f3ff; border-top: 1px solid #ddd6fe; }
+    .leaderboard-row.is-me { background: #ffedd5; border-top: 1px solid #fcd34d; }
+    .leaderboard-row.is-me td { color: #92400e; }
 
     .you-tag {
-        font-size: 11px; font-weight: 600; color: #6366f1;
-        background: #eef2ff; border: 1px solid #c7d2fe;
-        border-radius: 6px; padding: 2px 8px; margin-left: 8px;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 11px; font-weight: 700; color: #ffffff;
+        background: #4f46e5; border: 1px solid #c7d2fe;
+        border-radius: 9999px; padding: 3px 10px; margin-left: 8px;
         vertical-align: middle;
+        letter-spacing: .04em;
     }
 </style>
 @endpush
@@ -75,7 +77,7 @@
 
             <tbody>
                 @foreach($leaderboard as $index => $user)
-                <tr class="leaderboard-row {{ $user->id == auth()->id() ? 'is-me' : '' }}">
+                <tr class="leaderboard-row {{ $user->id == auth()->id() ? 'is-me' : '' }} {{ $index < 3 ? 'rank-'.($index + 1) : '' }}">
 
                     <td class="p-4">
                         @if($index == 0)
@@ -98,7 +100,7 @@
                     <td class="p-4 text-sm text-gray-700">
                         {{ $user->name }}
                         @if($user->id == auth()->id())
-                            <span class="you-tag">Kamu</span>
+                            <span class="you-tag">KAMU</span>
                         @endif
                     </td>
 
