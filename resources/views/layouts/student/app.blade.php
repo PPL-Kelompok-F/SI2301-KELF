@@ -226,6 +226,25 @@ function toggleMotion() {
 
         <!-- MAIN -->
         <div class="p-6">
+            @if(session('success') || session('error'))
+                <div x-data="{ open: true }" x-show="open" x-transition class="mb-6">
+                    <div class="flex items-start justify-between gap-4 rounded-3xl border p-4 text-sm shadow-sm
+                        {{ session('success') ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-red-50 border-red-200 text-red-700' }}">
+                        <div class="flex items-start gap-3">
+                            <span class="mt-1 text-lg">
+                                <i class="fa-solid {{ session('success') ? 'fa-circle-check' : 'fa-triangle-exclamation' }}"></i>
+                            </span>
+                            <div>
+                                <p class="font-semibold">{{ session('success') ? 'Berhasil' : 'Gagal' }}</p>
+                                <p>{{ session('success') ?? session('error') }}</p>
+                            </div>
+                        </div>
+                        <button type="button" @click="open = false" class="text-current opacity-70 hover:opacity-100">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+            @endif
             @yield('content')
         </div>
 
