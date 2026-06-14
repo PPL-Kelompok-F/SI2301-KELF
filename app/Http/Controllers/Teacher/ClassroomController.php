@@ -3,40 +3,33 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Classroom;
 use Illuminate\Support\Facades\DB;
 
-class DashboardController extends Controller
+class ClassroomController extends Controller
 {
     public function index()
     {
-        if (!auth()->check() || auth()->user()->role !== 'teacher') {
-            abort(403);
-        }
-
         $teacherId = auth()->id();
 
-        $totalCourses = DB::table('courses')
-            ->where('teacher_id', $teacherId)
-            ->count();
+        $classrooms = Classroom::where('teacher_id', $teacherId)
+            ->latest()
+            ->get();
 
+        $totalCourses = $classrooms->count();
         $totalAssignments = DB::table('assignments')
             ->where('teacher_id', $teacherId)
             ->count();
-
         $totalSubmissions = DB::table('submissions')
             ->join('assignments', 'submissions.assignment_id', '=', 'assignments.id')
             ->where('assignments.teacher_id', $teacherId)
             ->count();
 
-        $classrooms = DB::table('classrooms')
-            ->where('teacher_id', $teacherId)
-            ->get();
-
-        return view('teacher.dashboard', compact(
+        return view('teacher.classrooms.index', compact(
+            'classrooms',
             'totalCourses',
             'totalAssignments',
-            'totalSubmissions',
-            'classrooms'
+            'totalSubmissions'
         ));
     }
 }
