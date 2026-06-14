@@ -28,7 +28,7 @@ class AuthController extends Controller
             'role' => 'required|in:admin,teacher,student',
         ]);
 
-        // 🔥 CEK AKUN TERDAFTAR ATAU TIDAK
+        // CEK AKUN TERDAFTAR ATAU TIDAK
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
@@ -43,17 +43,14 @@ class AuthController extends Controller
 
             $authUser = Auth::user();
 
-            // =========================
-            // ROLE VALIDATION (SAFE ADMIN)
-            // =========================
+            // CEGAH USER LOGIN DENGAN ROLE YANG TIDAK SESUAI
+            // Contoh: student/teacher mencoba login sebagai admin
             if ($authUser->role !== $request->role) {
-
-                // admin tetap boleh masuk tanpa error role UI
-                if ($authUser->role === 'admin') {
-                    return redirect('/admin/dashboard');
-                }
-
                 Auth::logout();
+
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
                 return back()->with('error', 'Role tidak sesuai dengan akun ini');
             }
 
@@ -74,7 +71,7 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:6',
-            'role' => 'required|in:admin,teacher,student'
+            'role' => 'required|in:teacher,student'
         ]);
 
         $user = User::create([
@@ -86,7 +83,6 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        // 🔥 FIX: jangan langsung dashboard, balik ke login
         return redirect('/login')->with('success', 'Register berhasil, silakan login');
     }
 

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Admin;
 
@@ -38,6 +38,11 @@ class UserController extends Controller
         // cegah admin ubah role dirinya sendiri
         if ($user->id == auth()->id()) {
             return back()->with('error', 'Tidak bisa mengubah role akun sendiri');
+        }
+
+        // cegah update jika role yang dipilih sama dengan role sebelumnya
+        if ($user->role === $request->role) {
+            return back()->with('error', 'Role tidak berubah');
         }
 
         $user->update([

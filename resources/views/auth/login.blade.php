@@ -25,14 +25,12 @@
             <h2 class="text-2xl font-bold mb-2">Welcome Back!</h2>
             <p class="text-gray-500 text-sm mb-6">Login to start your learning</p>
 
-            <!-- ✅ SUCCESS MESSAGE (HASIL REGISTER) -->
             @if(session('success'))
                 <div class="bg-green-100 text-green-600 p-2 rounded mb-3">
                     {{ session('success') }}
                 </div>
             @endif
 
-            <!-- ERROR -->
             @if ($errors->any())
                 <div class="bg-red-100 text-red-600 p-2 rounded mb-3">
                     @foreach ($errors->all() as $error)
@@ -54,7 +52,7 @@
                 <div class="mb-4">
                     <label class="text-sm mb-2 block">Sign in as</label>
 
-                    <div class="grid grid-cols-2 gap-2">
+                    <div class="grid grid-cols-3 gap-2">
 
                         <button type="button"
                             onclick="setRole(event, 'student')"
@@ -66,6 +64,12 @@
                             onclick="setRole(event, 'teacher')"
                             class="role-btn bg-gray-100 py-2 rounded-lg">
                             Teacher
+                        </button>
+
+                        <button type="button"
+                            onclick="setRole(event, 'admin')"
+                            class="role-btn bg-gray-100 py-2 rounded-lg">
+                            Admin
                         </button>
 
                     </div>

@@ -19,6 +19,26 @@
         Deadline: {{ $deadline->format('d M Y H:i') }}
     </p>
 
+    @if($assignment->file)
+
+<div class="mt-3">
+
+    <p class="font-semibold">
+        Assignment File:
+    </p>
+
+    <a href="{{ asset('storage/assignments/'.$assignment->file) }}"
+       target="_blank"
+       class="text-blue-500 underline">
+
+        📄 Download / View File
+
+    </a>
+
+</div>
+
+@endif
+
     <div class="mt-2">
         @if($isClosed)
             <span class="bg-red-200 text-red-700 px-2 py-1 rounded">CLOSED</span>

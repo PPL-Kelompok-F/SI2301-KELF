@@ -20,6 +20,23 @@ $isLate = now()->timezone('Asia/Jakarta')->gt($deadline);
     <p class="mt-2">
         {{ $assignment->description }}
     </p>
+    @if($assignment->file)
+
+<div class="mt-3">
+
+    <p class="font-semibold">
+        Assignment File:
+    </p>
+
+    <a href="{{ asset('storage/assignments/'.$assignment->file) }}"
+       target="_blank"
+       class="text-blue-500 underline">
+
+    </a>
+
+</div>
+
+@endif
 
     <p class="mt-2 text-red-500">
         Deadline: {{ $deadline->format('d M Y H:i') }}
