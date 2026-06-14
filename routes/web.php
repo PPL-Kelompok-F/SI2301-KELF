@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
+use App\Http\Controllers\Student\StreakController;
 
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 
@@ -15,7 +16,6 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-//add linne doang untuk testingn
 // login
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -32,6 +32,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth')->prefix('student')->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index']);
     Route::get('/courses', [StudentCourseController::class, 'courses']);
+    Route::get('/courses/{id}', [StudentCourseController::class, 'show']);
     Route::view('/quiz', 'pages.quiz');
     Route::view('/assignment', 'pages.assignment');
     Route::view('/forum', 'pages.forum');
@@ -39,6 +40,7 @@ Route::middleware('auth')->prefix('student')->group(function () {
     Route::view('/report', 'pages.report');
     Route::view('/payment', 'pages.payment');
     Route::view('/profile', 'pages.profile');
+    Route::get('/streak', [StreakController::class, 'index']);
 
     //Untuk enroll course
 
