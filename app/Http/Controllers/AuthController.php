@@ -27,8 +27,12 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'role' => 'required'
+            'role' => 'required|in:student,teacher'
         ]);
+
+        if ($request->role === 'admin') {
+            return back()->with('error', 'Gunakan halaman login admin di /admin/login');
+        }
 
         if (Auth::attempt([
             'email' => $request->email,
@@ -42,6 +46,35 @@ class AuthController extends Controller
         }
 
         return back()->with('error', 'Login gagal atau role salah');
+    }
+
+    public function showAdminLogin()
+    {
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return redirect('/admin/dashboard');
+        }
+
+        return view('admin.login');
+    }
+
+    public function adminLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+            'role' => 'admin'
+        ], $request->remember)) {
+            $request->session()->regenerate();
+
+            return redirect('/admin/dashboard');
+        }
+
+        return back()->with('error', 'Login gagal atau akun admin tidak ditemukan');
     }
 
     // REGISTER PROCESS
