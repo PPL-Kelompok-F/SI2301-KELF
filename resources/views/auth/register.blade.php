@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>Register - BelajarIn</title>
-    @vite('resources/css/app.css')
+
+    <!-- FIX BIAR GA PUTIH -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -42,6 +44,7 @@
                     class="w-full px-4 py-2 border rounded-lg">
                     <option value="student">Student</option>
                     <option value="teacher">Teacher</option>
+                    <option value="admin">Admin</option>
                 </select>
             </div>
 
@@ -71,7 +74,6 @@
                 Register
             </button>
 
-            
         </form>
 
         <p class="text-center text-sm mt-4">

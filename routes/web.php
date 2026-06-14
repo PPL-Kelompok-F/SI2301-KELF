@@ -5,14 +5,15 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
-use App\Http\Controllers\Student\ProfileController;
+
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
-use App\Http\Controllers\Student\ForumController;
+
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\ForumController;
 
 // redirect root
 Route::get('/', function () {
-    return redirect('/login');
+    return view('homepage');
 });
 
 //add linne doang untuk testingn
@@ -32,15 +33,20 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth')->prefix('student')->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index']);
     Route::get('/courses', [StudentCourseController::class, 'courses']);
-    Route::view('/quiz', 'pages.quiz');
+    // Quiz
+    Route::get('/quiz', [\App\Http\Controllers\Student\QuizController::class, 'index'])->name('student.quiz');
+    Route::get('/quiz/{materi}', [\App\Http\Controllers\Student\QuizController::class, 'show'])->name('student.quiz.show');
+    Route::post('/quiz/{materi}', [\App\Http\Controllers\Student\QuizController::class, 'submit'])->name('student.quiz.submit');
+    Route::get('/quiz/{materi}/result', [\App\Http\Controllers\Student\QuizController::class, 'result'])->name('student.quiz.result');
+
     Route::view('/assignment', 'pages.assignment');
-    Route::get('/forum', [ForumController::class, 'index']);
-    Route::post('/forum', [ForumController::class, 'store']);
     Route::view('/qna', 'pages.qna');
     Route::view('/report', 'pages.report');
-    Route::view('/payment', 'pages.payment');
-    Route::get('/profile', [ProfileController::class, 'index']);
-    Route::post('/profile', [ProfileController::class, 'update']);
+    // Payment
+    Route::get('/payment', [\App\Http\Controllers\Student\PaymentController::class, 'index'])->name('student.payment');
+    Route::post('/payment', [\App\Http\Controllers\Student\PaymentController::class, 'store'])->name('student.payment.store');
+    Route::get('/profile', [\App\Http\Controllers\Student\ProfileController::class, 'edit'])->name('student.profile');
+    Route::put('/profile', [\App\Http\Controllers\Student\ProfileController::class, 'update'])->name('student.profile.update');
 
     //Untuk enroll course
 
@@ -76,4 +82,12 @@ Route::middleware('auth')->prefix('teacher')->group(function () {
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index']);
     // Tambahkan route lain untuk admin di sini
+});
+
+// ROUTE FORUM (Bisa diakses Student & Teacher)
+Route::middleware('auth')->group(function () {
+    Route::get('/forum', [App\Http\Controllers\ForumController::class, 'index'])->name('forum.index');
+    Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
+    Route::get('/forum/{id}', [App\Http\Controllers\ForumController::class, 'show'])->name('forum.show');
+    Route::post('/forum/{id}/reply', [App\Http\Controllers\ForumController::class, 'reply'])->name('forum.reply');
 });

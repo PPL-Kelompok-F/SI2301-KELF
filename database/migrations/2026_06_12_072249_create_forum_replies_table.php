@@ -8,22 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('forum_posts', function (Blueprint $table) {
+        Schema::create('forum_replies', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('user_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
-            $table->string('title');
+            $table->foreignId('forum_post_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->text('content');
-
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('forum_posts');
+        Schema::dropIfExists('forum_replies');
     }
 };
