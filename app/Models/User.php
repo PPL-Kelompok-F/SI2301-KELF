@@ -37,6 +37,16 @@ class User extends Authenticatable
         return $this->hasMany(Material::class, 'uploaded_by');
     }
 
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(Assignment::class, 'teacher_id');
+    }
+
+    public function assignmentSubmissions(): HasMany
+    {
+        return $this->hasMany(AssignmentSubmission::class, 'user_id');
+    }
+
     // ROLE CHECK
     public function isAdmin()
     {

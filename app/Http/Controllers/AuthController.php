@@ -22,40 +22,46 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
         ]);
 
-        if (Auth::attempt([
-            'email' => $request->email,
+        $credentials = [
+            'email' => trim($request->email),
             'password' => $request->password,
-        ], $request->remember)) {
+        ];
 
+        $remember = (bool) $request->boolean('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
             return $this->redirectByRole(Auth::user()->role);
         }
 
-        return back()->with('error', 'Email atau password salah');
+        return back()->withInput()->with('error', 'Email atau password salah');
     }
 
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed|min:6',
-            'role' => 'required|in:admin,teacher,student'
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'confirmed', 'min:6'],
+            'role' => ['nullable', 'in:admin,teacher,student'],
         ]);
 
+        $role = $request->input('role', 'student');
+
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name' => trim($request->name),
+            'email' => trim($request->email),
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => $role,
         ]);
 
         Auth::login($user);
+        $request->session()->regenerate();
 
         return $this->redirectByRole($user->role);
     }

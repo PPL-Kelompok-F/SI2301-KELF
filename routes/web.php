@@ -1,52 +1,73 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Student\ProfileController;
+use App\Http\Controllers\Student\StudentAssignmentController;
+
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Teacher\MaterialController as TeacherMaterialController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Teacher\TeacherAssignmentController;
 
-// redirect root
+/*
+|--------------------------------------------------------------------------
+| ROOT
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
     return redirect('/login');
 });
 
-//add linne doang untuk testingn
-// login
+/*
+|--------------------------------------------------------------------------
+| AUTH
+|--------------------------------------------------------------------------
+*/
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-// register
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-// logout
 Route::post('/logout', [AuthController::class, 'logout']);
 
-//Route per role
+/*
+|--------------------------------------------------------------------------
+| STUDENT ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:student'])->prefix('student')->group(function () {
 
-Route::middleware('auth')->prefix('student')->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index']);
-    Route::get('/courses', [StudentCourseController::class, 'courses']);
-    Route::view('/quiz', 'pages.quiz');
-    Route::view('/assignment', 'pages.assignment');
-    Route::view('/forum', 'pages.forum');
-    Route::view('/qna', 'pages.qna');
-    Route::view('/report', 'pages.report');
-    Route::view('/payment', 'pages.payment');
 
+    Route::get('/courses', [StudentCourseController::class, 'courses']);
+
+    // Views student
+    Route::view('/quiz', 'student.quiz');
+    Route::get('/assignments', [StudentAssignmentController::class, 'index'])->name('student.assignments.index');
+    Route::get('/assignments/{assignment}', [StudentAssignmentController::class, 'show'])->name('student.assignments.show');
+    Route::post('/assignments/{assignment}/submit', [StudentAssignmentController::class, 'storeSubmission'])->name('student.assignments.storeSubmission');
+    Route::delete('/assignments/{assignment}/submit', [StudentAssignmentController::class, 'destroySubmission'])->name('student.assignments.destroySubmission');
+    Route::view('/forum', 'student.forum');
+    Route::view('/qna', 'student.qna');
+    Route::view('/report', 'student.report');
+    Route::view('/payment', 'student.payment');
+
+    // Profile
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::post('/profile', [ProfileController::class, 'update']);
 
-    //Untuk enroll course
+    // Enroll course
+    Route::post('/courses/enroll', function (Request $request) {
 
-    Route::post('/courses/enroll', function (Illuminate\Http\Request $request) {
-
-        $userId = auth()->id();
+        $userId = Auth::id();
         $courseId = $request->course_id;
 
         $exists = DB::table('enrollments')
@@ -61,22 +82,30 @@ Route::middleware('auth')->prefix('student')->group(function () {
         DB::table('enrollments')->insert([
             'user_id' => $userId,
             'course_id' => $courseId,
-            'created_at' => now()
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         return back()->with('success', 'Berhasil ambil course ini');
     });
 });
 
-Route::middleware('auth')->prefix('teacher')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| TEACHER ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function () {
+
     Route::get('/dashboard', [TeacherDashboardController::class, 'index']);
+
     Route::resource('materials', TeacherMaterialController::class)
         ->except(['show'])
         ->names('teacher.materials');
-    // Tambahkan route lain untuk teacher di sini
-});
 
-Route::middleware('auth')->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminDashboardController::class, 'index']);
-    // Tambahkan route lain untuk admin di sini
+    Route::get('/assignments', [TeacherAssignmentController::class, 'index'])->name('teacher.assignments.index');
+    Route::get('/assignments/create', [TeacherAssignmentController::class, 'create'])->name('teacher.assignments.create');
+    Route::post('/assignments', [TeacherAssignmentController::class, 'store'])->name('teacher.assignments.store');
+    Route::get('/assignments/{assignment}', [TeacherAssignmentController::class, 'show'])->name('teacher.assignments.show');
+    Route::get('/assignments/{assignment}/submissions', [TeacherAssignmentController::class, 'submissions'])->name('teacher.assignments.submissions');
 });

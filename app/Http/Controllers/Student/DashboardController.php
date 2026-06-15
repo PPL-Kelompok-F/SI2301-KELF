@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Material;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -35,6 +36,14 @@ class DashboardController extends Controller
                 ->where('enrollments.user_id', $user->id)
                 ->select('courses.*')
                 ->get();
+        }
+
+        if ($courses->isEmpty() && Schema::hasTable('materials')) {
+            $courses = Material::latest()->get()->map(function ($material) {
+                $material->title = $material->judul;
+                $material->description = $material->deskripsi;
+                return $material;
+            });
         }
 
         // score average
