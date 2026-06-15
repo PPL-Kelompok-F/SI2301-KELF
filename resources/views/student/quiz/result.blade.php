@@ -48,7 +48,6 @@
         <div class="space-y-6">
             @foreach ($materi->quizzes as $index => $quiz)
                 @php
-                    // Ambil jawaban dari session, jika tidak ada set default
                     $jawabanSiswa = $userAnswers[$quiz->id] ?? '-';
                     $isCorrect = $jawabanSiswa == $quiz->correct_answer;
                 @endphp
@@ -74,7 +73,11 @@
                                     <span class="text-sm text-gray-500 block">Jawaban Kamu:</span>
                                     <span class="font-bold {{ $isCorrect ? 'text-green-600' : 'text-red-600' }}">
                                         {{ $jawabanSiswa }} 
-                                        @if($isCorrect) (Benar) @else (Salah) @endif
+                                        @if($jawabanSiswa != '-')
+                                            @if($isCorrect) (Benar) @else (Salah) @endif
+                                        @else
+                                            (Tidak Dijawab)
+                                        @endif
                                     </span>
                                 </div>
                                 <div class="mt-2 sm:mt-0">

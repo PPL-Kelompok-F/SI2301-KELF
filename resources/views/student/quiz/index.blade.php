@@ -25,10 +25,9 @@
                     <div class="flex justify-between text-sm text-gray-500 mb-6">
                         <span>{{ $materi->quizzes_count }} Soal</span>
                     </div>
+
                     @php
-
                         $firstQuiz = $materi->quizzes->first();
-
                         $result = null;
 
                         if ($firstQuiz) {
@@ -36,13 +35,12 @@
                                 'user_id',
                                 auth()->id()
                             )
-                                ->where(
-                                    'quiz_id',
-                                    $firstQuiz->id
-                                )
-                                ->first();
+                            ->where(
+                                'quiz_id',
+                                $firstQuiz->id
+                            )
+                            ->first();
                         }
-
                     @endphp
 
                     @if($result)
@@ -56,7 +54,7 @@
                                 </p>
 
                                 <p class="text-2xl font-bold text-green-600">
-                                    {{ round(($result->score / $result->total_questions) * 100) }}%
+                                    {{ round(($result->score / max($result->total_questions, 1)) * 100) }}%
                                 </p>
 
                                 <p class="text-xs text-green-600">
@@ -69,12 +67,21 @@
 
                     @endif
 
-                    <a href="{{ route('student.quiz.show', $materi->id) }}"
-                        class="w-full inline-block text-center bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition">
+                    <div class="flex flex-col gap-2">
+                        
+                        <a href="{{ route('student.quiz.show', $materi->id) }}"
+                            class="w-full inline-block text-center bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition font-medium">
+                            {{ $result ? 'Kerjakan Lagi' : 'Mulai Quiz' }}
+                        </a>
 
-                        Mulai Quiz
+                        @if($result)
+                            <a href="{{ route('student.quiz.result', $materi->id) }}"
+                                class="w-full inline-block text-center bg-green-100 text-green-700 py-3 rounded-xl hover:bg-green-200 transition font-medium flex items-center justify-center gap-1">
+                                📊 Lihat Pembahasan
+                            </a>
+                        @endif
 
-                    </a>
+                    </div>
 
                 </div>
 

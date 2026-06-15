@@ -12,14 +12,25 @@ class QuizController extends Controller
 {
     public function index()
     {
-        $materis = Materi::with([
-            'quizzes'
-        ])->withCount('quizzes')
-        ->get();
+        $userId = auth()->id();
 
-        return view('student.quiz.index', compact(
-            'materis'
-        ));
+        $materis = Materi::withCount('quizzes')
+        ->get()
+        ->map(function ($materi) use ($userId) {
+            $firstQuiz = $materi->quizzes()->first();
+
+            if ($firstQuiz) {
+                $materi->user_result = QuizResult::where('user_id', $userId)
+                    ->where('quiz_id', $firstQuiz->id)
+                    ->first();
+            } else {
+                $materi->user_result = null;
+            }
+
+            return $materi;
+        });
+
+        return view('student.quiz.index', compact('materis'));
     }
 
     public function show(Materi $materi)
@@ -38,25 +49,26 @@ class QuizController extends Controller
         $score = 0;
         $totalQuestions = $materi->quizzes->count();
         
-        // 1. Siapkan array untuk menampung jawaban siswa
         $userAnswers = []; 
 
         foreach ($materi->quizzes as $quiz) {
-
             $answer = $request->input('question_'.$quiz->id);
-            
-            // 2. Masukkan jawaban ke dalam array
-            $userAnswers[$quiz->id] = $answer; 
+            // Ambil jawaban terbaru dari input form, jika kosong beri tanda '-'
+            $userAnswers[$quiz->id] = $answer ?? '-'; 
 
             if ($answer == $quiz->correct_answer) {
                 $score++;
             }
         }
 
+        // Ambil ID soal pertama sebagai jangkar QuizResult sesuai struktur tabelmu
+        $firstQuizId = $materi->quizzes->first()->id;
+
+        // Update skor terakhir ke database
         QuizResult::updateOrCreate(
             [
                 'user_id' => auth()->id(),
-                'quiz_id' => $materi->quizzes->first()->id,
+                'quiz_id' => $firstQuizId,
             ],
             [
                 'score' => $score,
@@ -64,11 +76,16 @@ class QuizController extends Controller
             ]
         );
 
-        // 3. DI SINI TEMPATNYA -> Bawa jawaban pakai ->with()
+        // Hapus session lama terlebih dahulu agar tidak terjadi crash data lawas
+        session()->forget('userAnswers');
+
+        // Simpan jawaban yang BARU SAJA dijawab ke dalam session secara permanen/flash
+        session(['userAnswers' => $userAnswers]);
+
         return redirect()->route(
             'student.quiz.result',
             $materi->id
-        )->with('userAnswers', $userAnswers);
+        );
     }
 
     public function result(Materi $materi)
@@ -93,10 +110,9 @@ class QuizController extends Controller
             abort(404);
         }
 
-        // 4. DAN DI SINI TEMPATNYA -> Tangkap jawaban dari Session
-        $userAnswers = session('userAnswers', []);
+        // Menggunakan session()->get() agar datanya tetap tersimpan meskipun halaman di-refresh
+        $userAnswers = session()->get('userAnswers', []);
 
-        // 5. Jangan lupa tambahkan 'userAnswers' di compact
         return view(
             'student.quiz.result',
             compact(
